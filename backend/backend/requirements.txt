@@ -1,0 +1,6 @@
+bs4
+django
+djnagorestframework
+django-cors-headers
+requests
+lxml

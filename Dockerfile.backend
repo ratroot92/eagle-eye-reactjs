@@ -1,0 +1,20 @@
+FROM python:3.5.7
+# The enviroment variable ensures that the python output is set straight
+# to the terminal with out buffering it first
+ENV PYTHONUNBUFFERED 1
+WORKDIR /var/www/html/backend
+# # Install any needed packages specified in requirements.txt
+# RUN pip install -r requirements.txt
+VOLUME /var/www/html/backend
+RUN pip install --upgrade pip
+RUN pip install django
+RUN pip install djangorestframework 
+RUN pip install django-cors-headers
+RUN pip install bs4
+RUN pip install requests
+RUN pip install lxml
+EXPOSE 8080
+# CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+
+CMD python manage.py runserver 0.0.0.0:8080
+# CMD ["%%CMD%%"]
