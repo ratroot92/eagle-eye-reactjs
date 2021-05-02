@@ -1,4 +1,4 @@
-FROM python:3.5.7
+FROM python:3.8
 # The enviroment variable ensures that the python output is set straight
 # to the terminal with out buffering it first
 ENV PYTHONUNBUFFERED 1
@@ -13,6 +13,8 @@ RUN pip install django-cors-headers
 RUN pip install bs4
 RUN pip install requests
 RUN pip install lxml
+RUN pip install mongoengine
+RUN pip install django-rest-framework-mongoengine
 EXPOSE 8080
 # CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
 

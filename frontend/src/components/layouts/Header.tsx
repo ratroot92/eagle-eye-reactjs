@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -21,9 +21,9 @@ export default function Header() {
         </a>
         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
           <li className="nav-item active">
-            <a className="nav-link" href="#">
+            <Link className="nav-link" to="/twitter-crawler">
               Twitter Crawler <span className="sr-only">(current)</span>
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">

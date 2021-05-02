@@ -1,27 +1,43 @@
-.font-10px{
-    font-size: 10px!important;
+@import '~antd/dist/antd.css';
+.font-10px {
+  font-size: 10px !important;
 }
-.font-11px{
-    font-size: 11px!important;
+.font-11px {
+  font-size: 11px !important;
 }
-.font-12px{
+.font-12px {
+  font-size: 12px !important;
+}
+.font-13px {
+  font-size: 13px !important;
+}
+.font-14px {
+  font-size: 14px !important;
+}
+.font-15px {
+  font-size: 15px !important;
+}
+.font-18px {
+  font-size: 18px !important;
+}
+.font-19px {
+  font-size: 19px !important;
+}
+.font-20px {
+  font-size: 20px !important;
+}
+
+/* Label Styles */
+.custom-form-label {
+  width: 150px!important;
+  height: 30px!important;
+  font-size: 12px!important;
+  padding-top: 5px!important;
+}
+/* Input Styles */
+.custom-form-input {
+    width: 250px!important;
+    height: 30px!important;
     font-size: 12px!important;
-}
-.font-13px{
-    font-size: 13px!important;
-}
-.font-14px{
-    font-size: 14px!important;
-}
-.font-15px{
-    font-size: 15px!important;
-}
-.font-18px{
-    font-size: 18px!important;
-}
-.font-19px{
-    font-size: 19px!important;
-}
-.font-20px{
-    font-size: 20px!important;
-}
+    padding-top: 5px!important;
+  }

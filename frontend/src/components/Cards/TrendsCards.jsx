@@ -13,7 +13,7 @@ export default function TrendsCards({ trends, title }) {
     // },
   });
   const tableContainer = useCss({
-    height: '300px',
+    height: '350px',
     overflow: 'auto',
     border: '1px solid green',
     '&:hover': {
@@ -23,9 +23,17 @@ export default function TrendsCards({ trends, title }) {
   return (
     <div className="card">
       <div className="card-header text-center font-15px">
-        {' '}
-        <FontAwesomeIcon icon={faTwitter} />
-        {title}
+        <div className="d-flex flex-row justify-content-around align-items-center">
+          <FontAwesomeIcon
+            icon={faTwitter}
+            className="super-crazy-colors bg-primary p-1  "
+            name="rocket"
+            size="2x"
+            // spin
+            style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: 'white' }}
+          />
+          <span> {title}</span>
+        </div>
       </div>
       <div className={`card-body m-0 p-0 `}>
         <div className={`${tableContainer}`}>
@@ -58,7 +66,7 @@ export default function TrendsCards({ trends, title }) {
         </div>
       </div>
       <div className="card-footer">
-        <FontAwesomeIcon icon={faSync} />
+        <FontAwesomeIcon icon={faSync} spin />
         <span className="font-12px p-1 m-0 ">
           Last Synced :
           {moment()

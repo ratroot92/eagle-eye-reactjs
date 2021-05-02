@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+from mongoengine import connect
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'dashboard',
+    'twitter',
 ]
 
 MIDDLEWARE = [
@@ -54,12 +56,33 @@ MIDDLEWARE = [
 """ React Cors """
 CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
 CORS_ALLOW_CREDENTIALS = True
+
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ] # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ORIGIN_REGEX_WHITELIST = [
     'http://localhost:3000',
 ]
+CORS_ALLOW_HEADERS = (
+    'csrftoken',
+    'content-type',
+    'X-CSRFTOKEN'
+)
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_HEADER_NAME = 'X-CSRFTOKEN'
+CSRF_COOKIE_SECURE = True
+
+
+""" Sessions """
+SESSION_COOKIE_HTTPONLY = False      # Not accessible by client 
+SESSION_COOKIE_AGE = 8 * 3600        # Expires after 8 hr
+SESSION_COOKIE_SECURE = False  
+
+
+
+
+
+
 
 
 
@@ -93,6 +116,27 @@ DATABASES = {
         'NAME': str(BASE_DIR / 'db.sqlite3'),
     }
 }
+
+
+
+""" Mongo Engine Db Config """
+
+
+try:
+    print("*** - Connecting DB --Try -***")
+    print("*** - MONGODB_DATABASE -***",os.getenv('MONGODB_DATABASE'))
+    print("*** - MONGODB_HOSTNAME -***",os.getenv('MONGODB_HOSTNAME'))
+    print("*** - MONGODB_PORT -***",os.getenv('MONGODB_PORT'))
+    connect(
+        db=os.getenv('MONGODB_DATABASE',default='eagle_eye_db'),
+        host='mongodb' ,
+        port=int(os.getenv('MONGODB_PORT',default=27017))
+    )
+    print("MongoDb connection success")
+except Exception as e:
+    print("*** - Connecting DB --Execprt -***")
+    print("MongoDb connection failed")
+    print("Error ",e)
 
 
 # Password validation

@@ -1,5 +1,26 @@
 version: "3.7"
 services:
+  mongodb:
+    image: mongo:4.0.8
+    container_name: mongodb
+    hostname: mongodb
+    restart: unless-stopped
+    volumes:
+      - "./database:/data/db"
+    command: mongod --port 27017 --bind_ip 0.0.0.0
+    networks:
+      - main
+    environment:
+      MONGO_INITDB_ROOT_USERNAME:
+      MONGO_INITDB_ROOT_PASSWORD:
+      MONGO_INITDB_DATABASE: eagle_eye_db
+      MONGODB_DATA_DIR: /data/db
+      MONDODB_LOG_DIR: /dev/null
+    # volumes:
+    #   - mongodbdata:/data/db
+    ports:
+      - "27017:27017"
+
   backend:
     build:
       context: ./backend
@@ -11,28 +32,33 @@ services:
       - ./backend:/var/www/html/backend
     ports:
       - 8080:8080
-    # networks:
-    #   - main
-    # environment:
-    #   MONGODB_DATABASE: eagle_eye_db
-    #   MONGODB_USERNAME:
-    #   MONGODB_PASSWORD:
-    #   MONGODB_HOSTNAME: mongodb:27017
-    #   MONGODB_PORT: '27017'
-    #   ENV_DEBUG: 'True'
-    #   CELERY_RESULT_BACKEND:  amqp://guest:guest@rabbitmq/%2F
-    #   CELERY_TASK_SERIALIZER: 'json'
-    #   CELERY_RESULT_SERIALIZER: 'json'
-    #   CELERY_TIMEZONE:
-    #   REDIS_HOST: redis
-    #   BROKER_URL: redis
-    #   REDIS_PORT: 6379
-    #   CELERY_BROKER_URL: amqp://guest:guest@rabbitmq/%2F
+    networks:
+      - main
+    environment:
+      MONGODB_DATABASE: eagle_eye_db
+      MONGODB_USERNAME:
+      MONGODB_PASSWORD:
+      MONGODB_HOSTNAME: mongodb:27017
+      MONGODB_PORT: "27017"
+      ENV_DEBUG: "True"
+      CELERY_RESULT_BACKEND: amqp://guest:guest@rabbitmq/%2F
+      CELERY_TASK_SERIALIZER: "json"
+      CELERY_RESULT_SERIALIZER: "json"
+      CELERY_TIMEZONE:
+      REDIS_HOST: redis
+      BROKER_URL: redis
+      REDIS_PORT: 6379
+      CELERY_BROKER_URL: amqp://guest:guest@rabbitmq/%2F
+    depends_on:
+      - mongodb
+
   frontend:
     build:
       context: ./frontend
       dockerfile: ../Dockerfile.frontend
     container_name: frontend
+    networks:
+      - main
     ports:
       - 3000:3000
     restart: always
@@ -54,6 +80,8 @@ services:
       context: ./nginx
       dockerfile: ../Dockerfile.nginx
     container_name: nginx
+    networks:
+      - main
     ports:
       - 80:80
     links:
@@ -62,3 +90,5 @@ services:
     depends_on:
       - backend
       - frontend
+networks:
+  main:

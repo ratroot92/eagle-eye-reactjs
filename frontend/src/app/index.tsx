@@ -13,8 +13,11 @@ import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './pages/HomePage/Loadable';
+import { TwitterCrawler } from './pages/TwitterCrawler/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
+import { NotificationContainer } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -31,10 +34,12 @@ export function App() {
 
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/twitter-crawler" component={TwitterCrawler} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
       </BrowserRouter>
+      <NotificationContainer />
     </div>
   );
 }

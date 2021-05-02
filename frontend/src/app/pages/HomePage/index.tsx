@@ -62,7 +62,7 @@ export function HomePage() {
             />
           </div>
           <div className="col-md-4">
-            <TrendCardWithSelect title="Top Trends By Area" />
+            <TrendCardWithSelect title="India Top Trends" />
           </div>
         </>
       ) : (

@@ -4,3 +4,5 @@ djnagorestframework
 django-cors-headers
 requests
 lxml
+mongoengine
+django-rest-framework-mongoengine
