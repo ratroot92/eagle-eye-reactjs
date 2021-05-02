@@ -1,0 +1,8 @@
+/node_modules
+node_modules
+*.pyc
+*.lock
+.lock
+.vscode
+database/diagnostic.data/
+database/*
