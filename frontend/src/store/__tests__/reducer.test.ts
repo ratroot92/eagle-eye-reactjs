@@ -1,4 +1,4 @@
-import { createReducer } from '../reducers';
+import { createReducer } from '../reducers.unuse.';
 import { Reducer } from '@reduxjs/toolkit';
 
 describe('reducer', () => {

@@ -14,6 +14,7 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './pages/HomePage/Loadable';
 import { TwitterCrawler } from './pages/TwitterCrawler/Loadable';
+import { TwitterRapidSerach } from './pages/RapidSearch/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { NotificationContainer } from 'react-notifications';
@@ -35,6 +36,11 @@ export function App() {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/twitter-crawler" component={TwitterCrawler} />
+          <Route
+            exact
+            path="/twitter-rapid-search"
+            component={TwitterRapidSerach}
+          />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

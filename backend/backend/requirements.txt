@@ -6,3 +6,6 @@ requests
 lxml
 mongoengine
 django-rest-framework-mongoengine
+nest-asyncio
+asyncio
+geopy

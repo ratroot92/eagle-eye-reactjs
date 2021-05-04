@@ -15,6 +15,11 @@ RUN pip install requests
 RUN pip install lxml
 RUN pip install mongoengine
 RUN pip install django-rest-framework-mongoengine
+RUN pip3 install --user --upgrade git+https://github.com/twintproject/twint.git@origin/master#egg=twint
+RUN pip install nest-asyncio
+RUN pip install asyncio
+RUN pip install geopy
+
 EXPOSE 8080
 # CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000
 

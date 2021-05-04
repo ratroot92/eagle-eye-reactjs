@@ -13,6 +13,14 @@ import React from 'react';
 import { BoxLoading } from 'react-loadingg';
 import twitterService from '../../../service/twitterService';
 import { NotificationManager } from 'react-notifications';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  startSetTwitterTweetsTarget,
+  startAddTwitterTweetsTarget,
+  startDeleteTwitterTweetsTarget,
+} from '../../../actions/TwitterTweetsTargets';
+import { AppState } from 'store/configureStore';
+interface TwitterCrawlerState {}
 
 /**
  * Form
@@ -47,15 +55,20 @@ const validationSchema = Yup.object().shape({
   target_scheduling: Yup.string().required(),
 });
 
-export function TwitterCrawler() {
-  const [load, setLoad] = React.useState(false);
-  const [state, setState] = React.useState<any[]>([]);
-
+export const TwitterCrawler = (props: TwitterCrawlerState) => {
+  const [load, setLoad] = React.useState(true);
+  const dispatch = useDispatch();
+  const twitter_tweets_targets = useSelector(
+    (state: AppState) => state.twitter_tweets_targets,
+  );
   React.useEffect(() => {
     twitterService
       .allTweetsTargets()
       .then(resData => {
-        setState(resData.data);
+        console.log('====================================');
+        console.log('all_twitter_tweets_targets >> ', resData.data);
+        console.log('====================================');
+        dispatch(startSetTwitterTweetsTarget(resData.data));
         setLoad(true);
       })
       .catch(err => {
@@ -69,33 +82,24 @@ export function TwitterCrawler() {
     resolver: yupResolver(validationSchema),
   });
 
-  React.useEffect(() => {
-    console.log('====================================');
-    console.log(errors);
-    console.log('====================================');
-  }, [errors]);
-
   const submit = formData => {
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
     twitterService
-      // .Add_Twitter_Tweets_Target({ target_username: formData.target_username })
-      .Add_Twitter_Tweets_Target({
+      .addTwitterTweetsTargets({
         target_username: formData.target_username,
         target_type: formData.target_type,
         target_platform: formData.target_platform,
         target_scheduling: formData.target_scheduling,
       })
       .then(resData => {
-        console.log('====================================');
-        console.log(resData);
-        console.log('====================================');
         if (resData.success) {
           NotificationManager.success(
             'twitter target added successfully ... ',
             'Twitter Targets',
           );
+          console.log('====================================');
+          console.log('Saved Target => ', resData.data);
+          console.log('====================================');
+          dispatch(startAddTwitterTweetsTarget(resData.data));
         } else {
           NotificationManager.warning(
             'failed to add twitter target ... ',
@@ -126,6 +130,7 @@ export function TwitterCrawler() {
             'tweets target deleted successfully ....',
             'Twitter Targets',
           );
+          dispatch(startDeleteTwitterTweetsTarget(id));
           //run dispatcher here (redux or context)
         } else {
           NotificationManager.success(
@@ -163,79 +168,77 @@ export function TwitterCrawler() {
           </tr>
         </thead>
         <tbody>
-          {state &&
-            state.length > 0 &&
-            state.map(item => {
-              return (
-                <tr>
-                  <th className="font-12px" scope="row">
-                    {item.target_platform}
-                  </th>
-                  <td className="font-12px">{item.target_username}</td>
-                  <td className="font-12px">{item.target_scheduling}</td>
-                  <td
-                    className={`${
-                      item.scanning_status === 'pending'
-                        ? 'text-danger'
-                        : 'text-success'
-                    } font-12px`}
-                  >
-                    {item.scanning_status}
-                  </td>
-                  <td className="font-12px">{item.tweet_count || 'n/a'}</td>
-                  <td className="font-12px">
-                    {item.scanning_status === 'pending' ? (
-                      <>
-                        <span
-                          className="badge badge-danger"
-                          onClick={() => {
-                            deleteTarget(item.id);
+          {twitter_tweets_targets.map(item => {
+            return (
+              <tr>
+                <th className="font-12px" scope="row">
+                  {item.target_platform}
+                </th>
+                <td className="font-12px">{item.target_username}</td>
+                <td className="font-12px">{item.target_scheduling}</td>
+                <td
+                  className={`${
+                    item.scanning_status === 'pending'
+                      ? 'text-danger'
+                      : 'text-success'
+                  } font-12px`}
+                >
+                  {item.scanning_status}
+                </td>
+                <td className="font-12px">{item.tweets_count || 'n/a'}</td>
+                <td className="font-12px">
+                  {item.scanning_status === 'pending' ? (
+                    <>
+                      <span
+                        className="badge badge-danger"
+                        onClick={() => {
+                          deleteTarget(item.id);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className=""
+                          size="1x"
+                          style={{
+                            color: 'white',
+                            fontSize: '14px',
+                            margin: 3,
                           }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            className=""
-                            size="1x"
-                            style={{
-                              color: 'white',
-                              fontSize: '14px',
-                              margin: 3,
-                            }}
-                          />
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="badge badge-success">
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className=""
-                            size="1x"
-                            style={{
-                              color: 'white',
-                              fontSize: '14px',
-                              margin: 3,
-                            }}
-                          />
-                        </span>
-                        <span className="badge badge-danger">
-                          <FontAwesomeIcon
-                            icon={faTrashAlt}
-                            className=""
-                            size="1x"
-                            style={{
-                              color: 'white',
-                              fontSize: '14px',
-                              margin: 3,
-                            }}
-                          />
-                        </span>
-                      </>
-                    )}
-                  </td>
-                </tr>
-              );
-            })}
+                        />
+                      </span>
+                    </>
+                  ) : (
+                    <td>
+                      <span className="badge badge-success">
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          className=""
+                          size="1x"
+                          style={{
+                            color: 'white',
+                            fontSize: '14px',
+                            margin: 3,
+                          }}
+                        />
+                      </span>
+                      <span className="badge badge-danger">
+                        <FontAwesomeIcon
+                          icon={faTrashAlt}
+                          className=""
+                          size="1x"
+                          style={{
+                            color: 'white',
+                            fontSize: '14px',
+                            margin: 3,
+                          }}
+                        />
+                      </span>
+                    </td>
+                  )}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     );
@@ -413,5 +416,5 @@ export function TwitterCrawler() {
       )}
     </div>
   );
-}
+};
 export default TwitterCrawler;

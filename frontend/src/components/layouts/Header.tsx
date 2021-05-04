@@ -25,10 +25,10 @@ export default function Header() {
               Twitter Crawler <span className="sr-only">(current)</span>
             </Link>
           </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">
-              Rapid Search
-            </a>
+          <li className="nav-item active">
+            <Link className="nav-link" to="/twitter-rapid-search">
+              Rapid Search <span className="sr-only">(current)</span>
+            </Link>
           </li>
           <li className="nav-item">
             <a className="nav-link disabled" href="#">

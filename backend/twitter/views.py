@@ -18,8 +18,10 @@ def Add_Twitter_Tweets_Target(request):
                                 formData["target_username"],
                                 int(formData["target_scheduling"]),
                                 )
-        context = {'success':True,'data':formData}
-        return JsonResponse(context)
+        qs=Twitter_Target_Document.objects.get(target_username=formData["target_username"])
+        entry = Twitter_Tweets_Target_Serializer(qs)
+        context = {'success':True,'data':entry.data}
+        return JsonResponse(context, safe=False)
     except Exception as e:
         print(e)
         context = {'success':False,'data':formData}

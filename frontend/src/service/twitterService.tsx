@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const twitterService = {
-  Add_Twitter_Tweets_Target: twitterUsername => {
+  addTwitterTweetsTargets: twitterUsername => {
     var csrfCookie = Cookies.get('csrftoken');
     console.log('csrf cookie: ', csrfCookie); // set to undefined
 
