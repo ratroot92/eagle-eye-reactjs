@@ -5,6 +5,9 @@ from rest_framework_mongoengine import serializers
 from django.views.decorators.csrf import csrf_exempt
 from .twitter_models import Twitter_Target_Document
 from .serializers import Twitter_Tweets_Target_Serializer
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+from .tasks import asd
 # Create your views here.
 @csrf_exempt
 def Add_Twitter_Tweets_Target(request):
@@ -20,6 +23,7 @@ def Add_Twitter_Tweets_Target(request):
                                 )
         qs=Twitter_Target_Document.objects.get(target_username=formData["target_username"])
         entry = Twitter_Tweets_Target_Serializer(qs)
+        celery_task_sent=getTweets.delay(target_username)
         context = {'success':True,'data':entry.data}
         return JsonResponse(context, safe=False)
     except Exception as e:

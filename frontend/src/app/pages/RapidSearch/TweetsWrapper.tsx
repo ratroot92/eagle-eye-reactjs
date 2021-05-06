@@ -62,7 +62,7 @@ export default function TweetsWrapper({ tweet, index }) {
   // }
 
   return (
-    <div className="col-md-4 mb-2 mt-5">
+    <div className="col-md-6  mb-2 mt-5">
       <div className="card">
         <div className="card-header d-flex flex-row justify-content-between align-items-center">
           <span className="font-10px m-0 p-1 badge badge-success">

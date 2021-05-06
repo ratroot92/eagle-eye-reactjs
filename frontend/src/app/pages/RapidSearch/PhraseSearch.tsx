@@ -261,7 +261,7 @@ export default function PhraseSearchForm() {
                   <div className="d-flex flex-row justify-content-around align-items-center ">
                     <div className="form-check">
                       <input
-                        className="form-check-input"
+                        className="form-check-input "
                         type="radio"
                         name="tweets_type"
                         id="option1"
@@ -269,33 +269,42 @@ export default function PhraseSearchForm() {
                         value="1"
                         defaultChecked={true}
                       />
-                      <label className="form-check-label" htmlFor="option1">
+                      <label
+                        className="form-check-label text-white"
+                        htmlFor="option1"
+                      >
                         Image & Text
                       </label>
                     </div>
                     <div className="form-check">
                       <input
-                        className="form-check-input"
+                        className="form-check-input "
                         type="radio"
                         name="tweets_type"
                         id="option2"
                         ref={register}
                         value="2"
                       />
-                      <label className="form-check-label" htmlFor="option2">
+                      <label
+                        className="form-check-label text-white"
+                        htmlFor="option2"
+                      >
                         Image Only
                       </label>
                     </div>
                     <div className="form-check">
                       <input
-                        className="form-check-input"
+                        className="form-check-input "
                         type="radio"
                         name="tweets_type"
                         id="option3"
                         ref={register}
                         value="3"
                       />
-                      <label className="form-check-label" htmlFor="option3">
+                      <label
+                        className="form-check-label text-white"
+                        htmlFor="option3"
+                      >
                         Text Only
                       </label>
                     </div>

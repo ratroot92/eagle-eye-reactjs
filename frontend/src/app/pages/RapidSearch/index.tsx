@@ -18,7 +18,7 @@ export const TwitterRapidSerach = () => {
     setMode(mode);
   };
   return (
-    <div className="row h-100 border border-success">
+    <div className="row h-100 ">
       {load ? (
         <>
           <div className="col-md-12 ">
