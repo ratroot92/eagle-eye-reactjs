@@ -23,7 +23,7 @@ import 'react-notifications/lib/notifications.css';
 export function App() {
   const { i18n } = useTranslation();
   return (
-    <div className="container-fluid">
+    <div className="container-fluid ">
       <BrowserRouter>
         <Helmet
           titleTemplate="%s - React Boilerplate"

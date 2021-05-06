@@ -66,6 +66,9 @@ export default function LocationPhraseSearchFrom() {
       case '2':
         setLoadTweets(tweets.filter(item => item.photos?.length === 0));
         break;
+      case '3':
+        setLoadTweets(tweets.filter(item => item.hashtags?.length === 0));
+        break;
       default:
         setLoadTweets(tweets);
     }
@@ -448,6 +451,7 @@ export default function LocationPhraseSearchFrom() {
                     <option value="0">Images Only Tweets</option>
                     <option value="2">Text Only Tweets</option>
                     <option value="1">Re Tweeted Tweets</option>
+                    <option value="3">Hashtags Only</option>
                   </select>
                 </div>
               </div>

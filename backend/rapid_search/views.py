@@ -54,7 +54,18 @@ def Twitter_Rapid_Search(request):
             string=""+lat+","+lon+","+rad+""
             # print(target_phrase,tweets_count,tweets_type,lat,lon,rad)
             tweets=LocationSearchTweets(target_phrase,tweets_count,tweets_type,lat,lon,rad)   
-            print(tweets)     
+            """  
+                Serach Type === 4 ==> Geo Fence Search
+            """
+        elif search_type==4:
+            print("Serach Type ==> Geo Fence Search")
+            target_phrase=formData['target_phrase']
+            tweets_type=formData['tweets_type']
+            latitude=formData['latitude']
+            longitude=formData['longitude']
+            location_radius=formData['location_radius']
+            tweets_count=int(formData['tweets_count'])
+            tweets=LocationSearchTweets(target_phrase,tweets_count,tweets_type,latitude,longitude,location_radius)     
         if(len(tweets)<1):
             context = {'success':False,'data':formData}
             return JsonResponse(context, safe=False)

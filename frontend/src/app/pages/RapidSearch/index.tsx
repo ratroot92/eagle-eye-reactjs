@@ -5,6 +5,7 @@ import FormWrapper from './FormWrapper';
 import PhraseSearchForm from './PhraseSearch';
 import UserPhraseSearchForm from './UsernamePhraseSearch';
 import LocationPhraseSearchFrom from './LocationPhraseSearch';
+import GeofenceSearchFrom from './GeofenceSearch';
 const { TabPane } = Tabs;
 
 export const TwitterRapidSerach = () => {
@@ -17,10 +18,10 @@ export const TwitterRapidSerach = () => {
     setMode(mode);
   };
   return (
-    <div className="row">
+    <div className="row h-100 border border-success">
       {load ? (
         <>
-          <div className="col-md-12">
+          <div className="col-md-12 ">
             <Radio.Group
               onChange={handleModeChange}
               value={mode}
@@ -51,6 +52,12 @@ export const TwitterRapidSerach = () => {
                 <FormWrapper
                   title="Location Phrase Search"
                   ChildForm={<LocationPhraseSearchFrom />}
+                />
+              </TabPane>
+              <TabPane tab={`Geo Fence Search`} key="4">
+                <FormWrapper
+                  title="Geo Fence Search"
+                  ChildForm={<GeofenceSearchFrom />}
                 />
               </TabPane>
             </Tabs>

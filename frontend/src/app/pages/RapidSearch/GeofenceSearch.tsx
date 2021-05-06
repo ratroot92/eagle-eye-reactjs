@@ -31,18 +31,21 @@ import TweetsWrapper from './TweetsWrapper';
  */
 
 const validationSchema = Yup.object().shape({
-  target_phrase: Yup.string().required('Target phrase is required ...'),
-  tweets_count: Yup.string().required('Field  is required ...'),
+  target_phrase: Yup.string().required('target phrase phrase is required ...'),
+  tweets_count: Yup.string().required('tweets count  is required ...'),
+  latitude: Yup.string().required('latitude  is required ...'),
+  longitude: Yup.string().required('longitude  is required ...'),
+  location_radius: Yup.string().required('location_radius  is required ...'),
 });
-export default function PhraseSearchForm() {
+export default function GeofenceSearch() {
   const [load, setLoad] = React.useState(true);
   const [loadTweets, setLoadTweets] = React.useState<any[]>([]);
   const [tweets, setTweets] = React.useState<any[]>([]);
-  const [toggle, setToggle] = React.useState(false);
+  const [toggle, setToggle] = React.useState<any>(false);
   const { register, handleSubmit, errors, reset } = useForm({
     resolver: yupResolver(validationSchema),
     // defaultValues: {
-    //   target_username: 'maliksblr92',
+    //   latitude: 'maliksblr92',
     // },
   });
 
@@ -65,7 +68,13 @@ export default function PhraseSearchForm() {
         setLoadTweets(tweets.filter(item => item.photos?.length === 0));
         break;
       case '3':
-        setLoadTweets(tweets.filter(item => item.hashtags?.length === 0));
+        setLoadTweets(tweets.filter(item => item.hashtags?.length > 0));
+        break;
+      case '4':
+        setLoadTweets(tweets.filter(item => item.reply_to?.length > 0));
+        break;
+      case '5':
+        setLoadTweets(tweets.filter(item => item.mentions?.length > 0));
         break;
       default:
         setLoadTweets(tweets);
@@ -75,10 +84,13 @@ export default function PhraseSearchForm() {
   const submit = formData => {
     setLoad(false);
     const radpiSearchObject = {
-      search_type: 1,
+      search_type: 4,
       target_phrase: formData.target_phrase,
+      latitude: formData.latitude,
+      location_radius: formData.location_radius,
       tweets_count: parseInt(formData.tweets_count),
       tweets_type: formData.tweets_type,
+      longitude: formData.longitude,
     };
     rapidSearchService
       .twitterRapidSerach(radpiSearchObject)
@@ -132,7 +144,7 @@ export default function PhraseSearchForm() {
               border border-${
                 errors?.search_type?.message ? 'danger' : 'success'
               } border-width-2`}
-                      defaultValue={'Phrase Search'}
+                      defaultValue="Geo Fence Search"
                       readOnly
                     />
                     <div className="input-group-append">
@@ -161,6 +173,140 @@ export default function PhraseSearchForm() {
               <div className="row mt-2">
                 <div className="col-md-3 ">
                   <label
+                    htmlFor="longitude"
+                    className="custom-form-label form-control form-control-sm"
+                  >
+                    Longitude
+                  </label>
+                </div>
+                <div className="col-md-9 pl-5 pr-5 ">
+                  <div className="input-group input-group-sm ">
+                    <input
+                      ref={register}
+                      type="text"
+                      name="longitude"
+                      defaultValue="73.084488"
+                      className={`custom-form-input form-control form-control-sm border border-
+              border border-${
+                errors?.longitude?.message ? 'danger' : 'success'
+              } border-width-2`}
+                    />
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        {errors?.longitude?.message !== undefined ? (
+                          <FontAwesomeIcon icon={faTimes} color="red" />
+                        ) : (
+                          <FontAwesomeIcon icon={faCheck} color="green" />
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {errors?.longitude?.message !== '' ? (
+                  <div className="col-md-9 offset-md-3 pl-5 pr-5 ">
+                    <p className="font-12px p-0 m-0  text-danger ">
+                      {errors?.longitude?.message}
+                    </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+              {/*  */}
+              {/*  */}
+              <div className="row mt-2">
+                <div className="col-md-3 ">
+                  <label
+                    htmlFor="latitude"
+                    className="custom-form-label form-control form-control-sm"
+                  >
+                    Latitude
+                  </label>
+                </div>
+                <div className="col-md-9 pl-5 pr-5 ">
+                  <div className="input-group input-group-sm ">
+                    <input
+                      ref={register}
+                      type="number"
+                      name="latitude"
+                      defaultValue={'33.738045'}
+                      className={`custom-form-input form-control form-control-sm border border-
+              border border-${
+                errors?.latitude?.message ? 'danger' : 'success'
+              } border-width-2`}
+                    />
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        {errors?.latitude?.message !== undefined ? (
+                          <FontAwesomeIcon icon={faTimes} color="red" />
+                        ) : (
+                          <FontAwesomeIcon icon={faCheck} color="green" />
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {errors?.latitude?.message !== '' ? (
+                  <div className="col-md-9 offset-md-3 pl-5 pr-5 ">
+                    <p className="font-12px p-0 m-0  text-danger ">
+                      {errors?.latitude?.message}
+                    </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+              {/*  */}
+              {/*  */}
+              <div className="row mt-2">
+                <div className="col-md-3 ">
+                  <label
+                    htmlFor="location_radius"
+                    className="custom-form-label form-control form-control-sm"
+                  >
+                    Raidus
+                  </label>
+                </div>
+                <div className="col-md-9 pl-5 pr-5 ">
+                  <div className="input-group input-group-sm ">
+                    <input
+                      ref={register}
+                      type="number"
+                      name="location_radius"
+                      defaultValue={100}
+                      minLength={10}
+                      maxLength={100}
+                      className={`custom-form-input form-control form-control-sm border border-
+              border border-${
+                errors?.location_radius?.message ? 'danger' : 'success'
+              } border-width-2`}
+                    />
+                    <div className="input-group-append">
+                      <span className="input-group-text">
+                        {errors?.location_radius?.message !== undefined ? (
+                          <FontAwesomeIcon icon={faTimes} color="red" />
+                        ) : (
+                          <FontAwesomeIcon icon={faCheck} color="green" />
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                {errors?.location_radius?.message !== '' ? (
+                  <div className="col-md-9 offset-md-3 pl-5 pr-5 ">
+                    <p className="font-12px p-0 m-0  text-danger ">
+                      {errors?.location_radius?.message}
+                    </p>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+              {/*  */}
+              {/*  */}
+              <div className="row mt-2">
+                <div className="col-md-3 ">
+                  <label
                     htmlFor="target_phrase"
                     className="custom-form-label form-control form-control-sm"
                   >
@@ -171,7 +317,7 @@ export default function PhraseSearchForm() {
                   <div className="input-group input-group-sm ">
                     <input
                       ref={register}
-                      defaultValue="maliksblr92"
+                      defaultValue="imran khan"
                       type="text"
                       name="target_phrase"
                       className={`custom-form-input form-control form-control-sm border border-
@@ -337,7 +483,6 @@ export default function PhraseSearchForm() {
                   Search Again{' '}
                 </button>
               </div>
-
               <div className="col-md-3 ">
                 <label
                   htmlFor="tweets_count"
@@ -359,6 +504,8 @@ export default function PhraseSearchForm() {
                     <option value="2">Text Only Tweets</option>
                     <option value="1">Re Tweeted Tweets</option>
                     <option value="3">Hashtags Only</option>
+                    <option value="4">Replied Only</option>
+                    <option value="5">Mentions Only</option>
                   </select>
                 </div>
               </div>
