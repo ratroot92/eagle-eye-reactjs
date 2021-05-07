@@ -9,3 +9,5 @@ django-rest-framework-mongoengine
 nest-asyncio
 asyncio
 geopy
+celery
+channels

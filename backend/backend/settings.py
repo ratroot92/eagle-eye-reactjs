@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 from mongoengine import connect
+from celery.schedules import crontab
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,16 +33,18 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'corsheaders',
-    'dashboard',
-    'twitter',
-    'rapid_search'
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'channels',
+        'geopy',
+        'corsheaders',
+        'dashboard',
+        'twitter',
+        'rapid_search'
 ]
 
 MIDDLEWARE = [
@@ -106,7 +109,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
+ASGI_APPLICATION = 'backend.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -182,3 +185,54 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+""" CELERY SETTINGS """
+
+BROKER_URL=os.getenv('BROKER_URL',default='amqp://127.0.0.1') 
+CELERY_BROKER_URL = "rabbitmq://rabbitmq:5672"
+CELERY_RESULT_BACKEND = "rabbitmq://rabbitmq:5672"
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = os.getenv('CELERY_TASK_SERIALIZER',default='json')
+CELERY_RESULT_SERIALIZER =os.getenv('CELERY_RESULT_SERIALIZER',default='json')
+CELERY_TIMEZONE = os.getenv('CELERY_TIMEZONE',default='Asia/Kolkata')
+# celery setting.
+CELERY_CACHE_BACKEND = 'default'
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+    }
+}
+# app seperated CELERY_IMPORTS = ['twitter.tasks']
+CELERY_IMPORTS = ['twitter.tasks']
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+             "hosts": [("redis", 6379), ("redis", 6379)],
+            # "hosts": [(os.getenv('REDIS_HOST',default='redis'), int(os.getenv('REDIS_PORT',default=6379)))],
+            "capacity": 1500,  # default 100
+            "expiry": 10,  # default 60
+        },
+    },
+}
+
+# CELERYBEAT_SCHEDULE = {
+#     'context': {
+#         'tasks': 'tasks.updateTopWorldTrends',
+#         'schedule':  crontab(),
+#     }
+# }
+CELERY_BEAT_SCHEDULE = {
+    # Executes every Friday at 4pm
+    # 'updateTopWorldTrends': { 
+    #      'task': 'Twitter_Crawler.tasks.updateTopWorldTrends', 
+    #     #  'schedule': crontab(hour=16, day_of_week=5),
+    #      'schedule': crontab(),
+    #     },    
+    #      'updateTopPakistanTrends': { 
+    #      'task': 'twitter.tasks.updateTopPakistanTrends', 
+    #     #  'schedule': crontab(hour=16, day_of_week=5),
+    #      'schedule': crontab(),
+    #     },          
+}

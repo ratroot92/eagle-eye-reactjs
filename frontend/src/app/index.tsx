@@ -14,30 +14,43 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './pages/HomePage/Loadable';
 import { TwitterCrawler } from './pages/TwitterCrawler/Loadable';
+import ViewTargetTweets from './pages/TwitterCrawler/ViewTargetTweets';
 import { TwitterRapidSerach } from './pages/RapidSearch/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 
-export function App() {
+export function App(props) {
   const { i18n } = useTranslation();
   return (
-    <div className="container-fluid ">
+    <div className="container-fluid h-100 ">
       <BrowserRouter>
         <Helmet
-          titleTemplate="%s - React Boilerplate"
-          defaultTitle="React Boilerplate"
+          titleTemplate="%s - Eagle Eye "
+          defaultTitle="Eagle Eye "
           htmlAttributes={{ lang: i18n.language }}
         >
-          <meta name="description" content="A React Boilerplate application" />
+          <meta name="description" content="A Eagle Eye  application" />
         </Helmet>
 
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/twitter-crawler" component={TwitterCrawler} />
+          <Route exact {...props} path="/" component={HomePage} />
           <Route
             exact
+            {...props}
+            path="/twitter-crawler"
+            component={TwitterCrawler}
+          />
+          <Route
+            exact
+            {...props}
+            path="/twitter-crawler/twitter-tweets-target/view-tweets"
+            component={ViewTargetTweets}
+          />
+          <Route
+            exact
+            {...props}
             path="/twitter-rapid-search"
             component={TwitterRapidSerach}
           />

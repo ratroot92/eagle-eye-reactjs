@@ -55,11 +55,6 @@ export default function TweetsWrapper({ tweet, index }) {
     source,
     reply_to,
   } = tweet;
-  // if (mentions.length > 0) {
-  console.log('====================================');
-  console.log({ urls });
-  console.log('====================================');
-  // }
 
   return (
     <div className="col-md-6  mb-2 mt-5">

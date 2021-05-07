@@ -19,6 +19,8 @@ RUN pip3 install --user --upgrade git+https://github.com/twintproject/twint.git@
 RUN pip install nest-asyncio
 RUN pip install asyncio
 RUN pip install geopy
+RUN pip install channels
+RUN pip install celery==4.4.6
 
 EXPOSE 8080
 # CMD python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000

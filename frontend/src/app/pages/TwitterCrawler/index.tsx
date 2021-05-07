@@ -20,7 +20,14 @@ import {
   startDeleteTwitterTweetsTarget,
 } from '../../../actions/TwitterTweetsTargets';
 import { AppState } from 'store/configureStore';
+import { History, LocationState } from 'history';
+import { Link } from 'react-router-dom';
 interface TwitterCrawlerState {}
+interface IComponentProps {
+  someOfYourOwnProps: any;
+  history: History<LocationState>;
+  someMorePropsIfNeedIt: any;
+}
 
 /**
  * Form
@@ -55,7 +62,9 @@ const validationSchema = Yup.object().shape({
   target_scheduling: Yup.string().required(),
 });
 
-export const TwitterCrawler = (props: TwitterCrawlerState) => {
+export const TwitterCrawler = (
+  props: TwitterCrawlerState & IComponentProps,
+) => {
   const [load, setLoad] = React.useState(true);
   const dispatch = useDispatch();
   const twitter_tweets_targets = useSelector(
@@ -81,6 +90,22 @@ export const TwitterCrawler = (props: TwitterCrawlerState) => {
   const { register, handleSubmit, errors, reset } = useForm({
     resolver: yupResolver(validationSchema),
   });
+  /**
+   * HELPING FUNCTIONS
+   *
+   */
+  const viewTargetTweets = targetData => {
+    console.log('====================================');
+    console.log(targetData);
+    console.log('====================================');
+    // props.history.push('/twitter-crawler/twitter-tweets-target/view-tweets');
+    props.history.push({
+      pathname: '/twitter-crawler/twitter-tweets-target/view-tweets',
+      // search: '?query=abc',
+      // state: targetData[0].twitter_tweets_targets,
+      state: targetData,
+    });
+  };
 
   const submit = formData => {
     twitterService
@@ -209,7 +234,12 @@ export const TwitterCrawler = (props: TwitterCrawlerState) => {
                     </>
                   ) : (
                     <td>
-                      <span className="badge badge-success">
+                      <span
+                        className="badge badge-success"
+                        onClick={() => {
+                          viewTargetTweets(item);
+                        }}
+                      >
                         <FontAwesomeIcon
                           icon={faEye}
                           className=""
