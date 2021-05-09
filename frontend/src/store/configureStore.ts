@@ -36,9 +36,11 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { TwitterTweetsTargetReducer } from '../reducers/TwitterTweetsTarget';
+import { TwitterProfileTargetReducer } from '../reducers/TwitterProfileTarget';
 import { AppActions } from '../types/actions';
 export const rootReducer = combineReducers({
   twitter_tweets_targets: TwitterTweetsTargetReducer,
+  twitter_profile_targets: TwitterProfileTargetReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -7,6 +7,7 @@ import {
   ADD_TWITTER_TWEETS_TARGET,
   SET_TWITTER_TWEETS_TARGETS,
   DELETE_TWITTER_TWEETS_TARGET,
+  EDIT_TWITTER_TWEETS_TARGET,
 } from 'types/actions';
 
 import { TwitterTweetsTarget } from '../types/TwitterTweetsTarget';
@@ -21,6 +22,13 @@ export const addTwitterTweetsTarget = (
 export const deleteTwitterTweetsTarget = (id: string): AppActions => ({
   type: DELETE_TWITTER_TWEETS_TARGET,
   id,
+});
+
+export const editTwitterTweetsTarget = (
+  twitter_tweets_target: TwitterTweetsTarget,
+): AppActions => ({
+  type: EDIT_TWITTER_TWEETS_TARGET,
+  twitter_tweets_target,
 });
 
 export const setTwitterTweetsTarget = (
@@ -81,13 +89,13 @@ export const startDeleteTwitterTweetsTarget = (id: string) => {
   };
 };
 
-// export const startEditTwitterTweetsTarget = (
-//   twitter_tweets_target: TwitterTweetsTarget,
-// ) => {
-//   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-//     dispatch(editTwitterTweetsTarget(twitter_tweets_target));
-//   };
-// };
+export const startEditTwitterTweetsTarget = (
+  twitter_tweets_target: TwitterTweetsTarget,
+) => {
+  return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    dispatch(editTwitterTweetsTarget(twitter_tweets_target));
+  };
+};
 
 export const startSetTwitterTweetsTarget = (
   twitter_tweets_targets: TwitterTweetsTarget[],

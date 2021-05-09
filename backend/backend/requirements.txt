@@ -11,3 +11,4 @@ asyncio
 geopy
 celery
 channels
+channels_redis
