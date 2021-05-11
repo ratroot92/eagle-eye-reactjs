@@ -122,7 +122,8 @@ export default function TrendsCards({ title }) {
                   ))}
               </tbody>
             ) : (
-              <BoxLoading></BoxLoading>
+              // <BoxLoading></BoxLoading>
+              <tr></tr>
             )}
           </table>
         </div>

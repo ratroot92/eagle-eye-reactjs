@@ -51,8 +51,8 @@ export default function TrendsCards({ trends, title }) {
             <tbody>
               {trends &&
                 trends.length > 0 &&
-                trends.map(trend => (
-                  <tr key={trend.name}>
+                trends.map((trend, index) => (
+                  <tr key={trend.name + trend.count + index}>
                     <td className="font-12px font-weight-bold text-danger p-1 m-0 ">
                       {trend.count || 'n/a'}
                     </td>
