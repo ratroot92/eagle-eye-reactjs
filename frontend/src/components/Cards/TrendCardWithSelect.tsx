@@ -123,7 +123,7 @@ export default function TrendsCards({ title }) {
               </tbody>
             ) : (
               // <BoxLoading></BoxLoading>
-              <tr></tr>
+              <tbody></tbody>
             )}
           </table>
         </div>
