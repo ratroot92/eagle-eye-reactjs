@@ -109,7 +109,7 @@ export default function TrendsCards({ title }) {
             </thead>
             {load ? (
               <tbody>
-                {state.length > 0 &&
+                {state?.length > 0 &&
                   state.map(trend => (
                     <tr>
                       <td className="font-12px font-weight-bold text-danger p-1 m-0 ">

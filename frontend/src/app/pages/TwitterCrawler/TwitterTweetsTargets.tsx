@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
@@ -26,7 +27,7 @@ import { History, LocationState } from 'history';
 import { Link } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { TwitterTweetsTarget } from 'types/TwitterTweetsTarget';
-interface TwitterCrawlerState {}
+interface TwitterCrawlerState { }
 interface IComponentProps {
   someOfYourOwnProps: any;
   history: History<LocationState>;
@@ -133,8 +134,7 @@ export const TwitterCrawler = (
           ),
         );
         NotificationManager.success(
-          `Scanning completed for task with username ${
-            JSON.parse(data).event.payload.updated_model.target_username
+          `Scanning completed for task with username ${JSON.parse(data).event.payload.updated_model.target_username
           }`,
 
           'Celery Notifications',
@@ -143,8 +143,7 @@ export const TwitterCrawler = (
         JSON.parse(data).event.type === 'twitter_tweets_targets_task_failed'
       ) {
         NotificationManager.success(
-          `Scanning failed for tweets target with username ${
-            JSON.parse(data).event.payload.updated_model.username
+          `Scanning failed for tweets target with username ${JSON.parse(data).event.payload.updated_model.username
           }`,
 
           'Celery Notifications',
@@ -247,15 +246,27 @@ export const TwitterCrawler = (
 
   const AllTargets = () => {
     return (
-      <table className="table">
+      <table className="table table-striped">
         <thead>
-          <tr>
-            <th scope="col">Target Platform</th>
-            <th scope="col">Username</th>
-            <th scope="col">Target Scheduling</th>
-            <th scope="col">Status</th>
-            <th scope="col">Tweet Count</th>
-            <th scope="col">Operations</th>
+          <tr className="border border-dark">
+            <th className="text-center p-0 m-0" scope="col">
+              Target Platform
+            </th>
+            <th className="text-center p-0 m-0" scope="col">
+              Username
+            </th>
+            <th className="text-center p-0 m-0" scope="col">
+              Target Scheduling
+            </th>
+            <th className="text-center p-0 m-0" scope="col">
+              Status
+            </th>
+            <th className="text-center p-0 m-0" scope="col">
+              Tweet Count
+            </th>
+            <th className="text-center p-0 m-0" scope="col">
+              Operations
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -268,16 +279,15 @@ export const TwitterCrawler = (
                 <td className="font-12px">{item.target_username}</td>
                 <td className="font-12px">{item.target_scheduling}</td>
                 <td
-                  className={`${
-                    item.scanning_status === 'pending'
-                      ? 'text-danger'
-                      : 'text-success'
-                  } font-12px`}
+                  className={`${item.scanning_status === 'pending'
+                    ? 'text-danger'
+                    : 'text-success'
+                    } font-12px`}
                 >
                   {item.scanning_status}
                 </td>
                 <td className="font-12px">{item.tweets_count || 'n/a'}</td>
-                <td className="font-12px">
+                <td className="d-flex flex-row justify-content-around align-items-center">
                   {item.scanning_status === 'pending' ? (
                     <>
                       <span
@@ -373,9 +383,8 @@ export const TwitterCrawler = (
                         defaultValue="twitter"
                         readOnly
                         className={`custom-form-input form-control form-control-sm border border-
-              border border-${
-                errors?.target_platform?.message === '' ? 'danger' : 'success'
-              } border-width-2`}
+              border border-${errors?.target_platform?.message === '' ? 'danger' : 'success'
+                          } border-width-2`}
                         name="target_platform"
                       />
                     </div>
@@ -397,9 +406,8 @@ export const TwitterCrawler = (
                         defaultValue="tweets_targets"
                         readOnly
                         className={`custom-form-input form-control form-control-sm border border-
-              border border-${
-                errors?.target_type?.message === '' ? 'danger' : 'success'
-              } border-width-2`}
+              border border-${errors?.target_type?.message === '' ? 'danger' : 'success'
+                          } border-width-2`}
                         name="target_type"
                       />
                     </div>
@@ -424,9 +432,8 @@ export const TwitterCrawler = (
                           name="target_username"
                           defaultValue="maliksblr92"
                           className={`custom-form-input form-control form-control-sm border border-
-              border border-${
-                errors?.target_username?.message ? 'danger' : 'success'
-              } border-width-2`}
+              border border-${errors?.target_username?.message ? 'danger' : 'success'
+                            } border-width-2`}
                         />
                         <div className="input-group-append">
                           <span className="input-group-text">
@@ -465,9 +472,8 @@ export const TwitterCrawler = (
                         ref={register}
                         name="target_scheduling"
                         className={`custom-form-input form-control form-control-sm border border-
-              border border-${
-                errors?.target_scheduling?.message === '' ? 'danger' : 'success'
-              } border-width-2`}
+              border border-${errors?.target_scheduling?.message === '' ? 'danger' : 'success'
+                          } border-width-2`}
                       >
                         <option value="0">0</option>
                         <option value="5">5</option>
