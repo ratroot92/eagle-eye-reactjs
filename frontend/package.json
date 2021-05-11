@@ -121,7 +121,7 @@
     "*.{md,json}": [
       "prettier --write"
     ]
-  },
+  }
  
   
 }
