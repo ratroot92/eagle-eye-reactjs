@@ -15,6 +15,7 @@ import { GlobalStyle } from 'styles/global-styles';
 import { HomePage } from './pages/HomePage/Loadable';
 import { TwitterCrawler } from './pages/TwitterCrawler/Loadable';
 import ViewTargetTweets from './pages/TwitterCrawler/ViewTargetTweets';
+import ViewTargetProfile from './pages/TwitterCrawler/ViewTargetProfile';
 import { TwitterRapidSerach } from './pages/RapidSearch/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
@@ -53,6 +54,12 @@ export function App(props) {
             {...props}
             path="/twitter-rapid-search"
             component={TwitterRapidSerach}
+          />
+          <Route
+            exact
+            {...props}
+            path="/twitter-crawler/twitter-profile-target/view-profile"
+            component={ViewTargetProfile}
           />
           <Route component={NotFoundPage} />
         </Switch>

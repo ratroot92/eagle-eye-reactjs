@@ -70,6 +70,30 @@ class Twitter_Channels(WebsocketConsumer):
                 "info": info
             }
         )
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,{
+                "type": 'twitter_tweets_targets_task_failed',
+                "message": message,
+                "username": username,
+                "info": info
+            }
+        )
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,{
+                "type": 'twitter_profile_targets_task_compelete',
+                "message": message,
+                "username": username,
+                "info": info
+            }
+        )
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name,{
+                "type": 'twitter_profile_targets_task_failed',
+                "message": message,
+                "username": username,
+                "info": info
+            }
+        )
 
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,{
@@ -123,12 +147,40 @@ class Twitter_Channels(WebsocketConsumer):
     def twitter_tweets_targets_task_compelete(self,event):
         print("Class => Twitter_Channels ")
         print("Channel Name  => Twitter_Tweets_Targets_Events ")
-        print("Class Function  => tweets_count ")
+        print("Class Function  => twitter_tweets_targets_task_compelete ")
         payload = event['payload']
         self.send(text_data=json.dumps({
             'event': event,
 
         }))
+    def twitter_tweets_targets_task_failed(self,event):
+        print("Class => Twitter_Channels ")
+        print("Channel Name  => Twitter_Tweets_Targets_Events ")
+        print("Class Function  => twitter_tweets_targets_task_failed ")
+        payload = event['payload']
+        self.send(text_data=json.dumps({
+            'event': event,
+
+        }))
+    def twitter_profile_targets_task_compelete(self,event):
+        print("Class => Twitter_Channels ")
+        print("Channel Name  => Twitter_Tweets_Targets_Events ")
+        print("Class Function  => twitter_tweets_targets_task_compelete ")
+        payload = event['payload']
+        self.send(text_data=json.dumps({
+            'event': event,
+
+        }))
+    def twitter_profile_targets_task_failed(self,event):
+        print("Class => Twitter_Channels ")
+        print("Channel Name  => Twitter_Tweets_Targets_Events ")
+        print("Class Function  => twitter_profile_targets_task_failed ")
+        payload = event['payload']
+        self.send(text_data=json.dumps({
+            'event': event,
+
+        }))
+        
     # def tweets_count(self,event):
     #     print("Class => Twitter_Channels ")
     #     print("Channel Name  => Twitter_Tweets_Targets_Events ")

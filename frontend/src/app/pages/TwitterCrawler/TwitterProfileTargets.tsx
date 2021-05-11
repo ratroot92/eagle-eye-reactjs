@@ -25,7 +25,7 @@ import { AppState } from 'store/configureStore';
 import { History, LocationState } from 'history';
 import { Link } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import { TwitterTweetsTarget } from 'types/TwitterTweetsTarget';
+import { TwitterProfileTarget } from 'types/TwitterProfileTarget';
 interface TwitterCrawlerState {}
 interface IComponentProps {
   someOfYourOwnProps: any;
@@ -121,6 +121,9 @@ export const TwitterProfileTargets = (
     },
     onMessage: response => {
       const { data } = response;
+      console.log('====================================');
+      console.log('Twitter Profile Targets  >> payload >> ', response);
+      console.log('====================================');
       if (
         JSON.parse(data).event.type === 'twitter_profile_targets_task_compelete'
       ) {
@@ -131,7 +134,7 @@ export const TwitterProfileTargets = (
         );
         NotificationManager.success(
           `Scanning completed for task with username ${
-            JSON.parse(data).event.payload.updated_model.username
+            JSON.parse(data).event.payload.updated_model.target_username
           }`,
 
           'Celery Notifications',
@@ -148,7 +151,7 @@ export const TwitterProfileTargets = (
         );
         dispatch(
           startDeleteTwitterProfileTarget(
-            JSON.parse(data).payload.updated_model.id,
+            JSON.parse(data).event.payload.updated_model.id,
           ),
         );
       }
@@ -161,9 +164,9 @@ export const TwitterProfileTargets = (
     //Will attempt to reconnect on all close events, such as server shutting down
     shouldReconnect: closeEvent => true,
   });
-  const viewTargetTweets = (targetData: TwitterTweetsTarget) => {
+  const viewTargetProfile = (targetData: TwitterProfileTarget) => {
     props.history.push({
-      pathname: '/twitter-crawler/twitter-tweets-target/view-tweets',
+      pathname: '/twitter-crawler/twitter-profile-target/view-profile',
       // search: '?query=abc',
       // state: targetData[0].twitter_profile_targets,
       state: targetData,
@@ -300,7 +303,7 @@ export const TwitterProfileTargets = (
                       <span
                         className="badge badge-success"
                         onClick={() => {
-                          // viewTargetTweets(item);
+                          viewTargetProfile(item);
                         }}
                       >
                         <FontAwesomeIcon
@@ -419,6 +422,7 @@ export const TwitterProfileTargets = (
                           type="text"
                           // required
                           name="target_username"
+                          defaultValue="maliksblr92"
                           className={`custom-form-input form-control form-control-sm border border-
               border border-${
                 errors?.target_username?.message ? 'danger' : 'success'

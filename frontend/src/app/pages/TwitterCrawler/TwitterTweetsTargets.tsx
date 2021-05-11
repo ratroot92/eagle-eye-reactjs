@@ -121,6 +121,9 @@ export const TwitterCrawler = (
     },
     onMessage: response => {
       const { data } = response;
+      console.log('====================================');
+      console.log('Twitter Tweets Targets  >> payload >> ', response);
+      console.log('====================================');
       if (
         JSON.parse(data).event.type === 'twitter_tweets_targets_task_compelete'
       ) {
@@ -131,7 +134,7 @@ export const TwitterCrawler = (
         );
         NotificationManager.success(
           `Scanning completed for task with username ${
-            JSON.parse(data).event.payload.updated_model.username
+            JSON.parse(data).event.payload.updated_model.target_username
           }`,
 
           'Celery Notifications',
@@ -148,7 +151,7 @@ export const TwitterCrawler = (
         );
         dispatch(
           startDeleteTwitterTweetsTarget(
-            JSON.parse(data).payload.updated_model.id,
+            JSON.parse(data).event.payload.updated_model.id,
           ),
         );
       }
@@ -419,6 +422,7 @@ export const TwitterCrawler = (
                           type="text"
                           // required
                           name="target_username"
+                          defaultValue="maliksblr92"
                           className={`custom-form-input form-control form-control-sm border border-
               border border-${
                 errors?.target_username?.message ? 'danger' : 'success'

@@ -1,3 +1,4 @@
+from typing import Dict
 from mongoengine import *
 from mongoengine import connect
 from django.conf import settings
@@ -143,6 +144,7 @@ class Twitter_Profile_Document(Document):
     tweets                =ListField(verbose_name="Tweets",default=[])
     followers          =ListField(verbose_name="Followers",default=[])
     following          =ListField(verbose_name="Followings",default=[])
+    profile          =DictField(verbose_name="Profile",default={})
 
     created_at            =DateField(default=datetime.datetime.now, editable=False,)
     updated_at            =DateField(default=datetime.datetime.now, editable=True,)
@@ -195,17 +197,25 @@ class Twitter_Profile_Document(Document):
             return False
 
     @staticmethod
-    def UpdateProfileTarget(target_username,tweets_list,following_list,followers_list):
+    def UpdateProfileTarget(target_username,tweets_list,following_list,followers_list,profile):
         target=Twitter_Profile_Document.objects.filter(target_username=target_username).first()
         if(target):
             #this will first empty the tweets_list on db  and save new tweets 
-            target.update(add_to_set__tweets=[])
-            target.update(add_to_set__tweets=tweets_list)
-            target.update(add_to_set__followers=[])
-            target.update(add_to_set__followers=followers_list)
-            target.update(add_to_set__followings=[])
-            target.update(add_to_set__followings=following_list)
-            target.update(scanning_status="completed")
+            # target.update(add_to_set__tweets=[])
+            # target.update(add_to_set__tweets=tweets_list)
+            # target.update(add_to_set__profile={})
+            # target.update(add_to_set__profile=profile)
+            target.update(**{
+                "set__profile": profile,
+                "set__tweets": tweets_list,
+                "set__scanning_status": "completed",
+               
+            })
+            # target.update(add_to_set__followers=[])
+            # target.update(add_to_set__followers=followers_list)
+            # target.update(add_to_set__followings=[])
+            # target.update(add_to_set__followings=following_list)
+            # target.update(scanning_status="completed")
             target.save()
             print(f"{bcolors.WARNING}Twitter Target Document  --InsertTargetTweets  --Success ,{bcolors.ENDC}")
             return True

@@ -16,6 +16,10 @@ RUN pip install lxml
 RUN pip install mongoengine
 RUN pip install django-rest-framework-mongoengine
 RUN pip3 install --user --upgrade git+https://github.com/twintproject/twint.git@origin/master#egg=twint
+# the below twint repo fixes the profile search that is unavailble in the above repo 
+# git this solution from 
+# https://github.com/twintproject/twint/issues/1003
+# RUN pip3 install --user --upgrade git+https://github.com/himanshudabas/twint.git@origin/twint-fixes#egg=twint
 RUN pip install nest-asyncio
 RUN pip install asyncio
 RUN pip install geopy

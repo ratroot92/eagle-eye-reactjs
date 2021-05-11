@@ -29,18 +29,22 @@
 
 /* Label Styles */
 .custom-form-label {
-  width: 150px!important;
-  height: 30px!important;
-  font-size: 12px!important;
-  padding-top: 5px!important;
+  width: 150px !important;
+  height: 30px !important;
+  font-size: 12px !important;
+  padding-top: 5px !important;
   font-weight: bold;
 }
 .custom-form-label:hover {
- color:green;
+  color: green;
 }
 /* Input Styles */
 .custom-form-input {
-    height: 30px!important;
-    font-size: 12px!important;
-    padding-top: 5px!important;
-  }
+  height: 30px !important;
+  font-size: 12px !important;
+  padding-top: 5px !important;
+}
+
+.text-full-black {
+  color: #000 !important;
+}
