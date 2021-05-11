@@ -6,3 +6,7 @@ node_modules
 .vscode
 database/diagnostic.data/
 database/*
+Dockerfile.backend
+Dockerfile.nginx
+Dockerfile.frontend
+docker-compose.yml

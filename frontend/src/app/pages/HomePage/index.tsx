@@ -43,7 +43,7 @@ export function HomePage() {
     fetchApi();
   }, []);
   return (
-    <div className="row h-100 border border-danger">
+    <div className="row h-100 ">
       {load ? (
         <>
           <div className="col-md-12 m-0 p-0">
