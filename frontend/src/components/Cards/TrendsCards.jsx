@@ -52,7 +52,14 @@ export default function TrendsCards({ trends, title }) {
               {trends &&
                 trends.length > 0 &&
                 trends.map((trend, index) => (
-                  <tr key={trend.name + trend.count + index}>
+                  <tr
+                    key={
+                      trend.name +
+                      trend.count +
+                      index +
+                      Math.floor(Math.random(0, 10))
+                    }
+                  >
                     <td className="font-12px font-weight-bold text-danger p-1 m-0 ">
                       {trend.count || 'n/a'}
                     </td>
