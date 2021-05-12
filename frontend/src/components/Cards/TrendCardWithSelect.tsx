@@ -110,13 +110,12 @@ export default function TrendsCards({ title }) {
             {load ? (
               <tbody>
                 {state?.length > 0 &&
-                  state.map((trend, index) => (
+                  state.map(trend => (
                     <tr
                       key={
                         trend.name +
                         trend.count +
-                        index +
-                        Math.floor(Math.random() * 100))
+                        Math.floor(Math.random() * 100)
                       }
                     >
                       <td className="font-12px font-weight-bold text-danger p-1 m-0 ">
@@ -144,6 +143,6 @@ export default function TrendsCards({ title }) {
             .fromNow()}
         </span> */}
       </div>
-    </div >
+    </div>
   );
 }

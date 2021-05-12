@@ -51,13 +51,10 @@ export default function TrendsCards({ trends, title }) {
             <tbody>
               {trends &&
                 trends.length > 0 &&
-                trends.map((trend, index) => (
+                trends.map(trend => (
                   <tr
                     key={
-                      trend.name +
-                      trend.count +
-                      index +
-                      Math.floor(Math.random() * 100))
+                      trend.name + trend.count + Math.floor(Math.random() * 100)
                     }
                   >
                     <td className="font-12px font-weight-bold text-danger p-1 m-0 ">
