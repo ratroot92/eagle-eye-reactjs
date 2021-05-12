@@ -57,7 +57,7 @@ export default function TrendsCards({ trends, title }) {
                       trend.name +
                       trend.count +
                       index +
-                      Math.floor(Math.random(0, 10))
+                      Math.floor(Math.random() * 100))
                     }
                   >
                     <td className="font-12px font-weight-bold text-danger p-1 m-0 ">
