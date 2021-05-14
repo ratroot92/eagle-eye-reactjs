@@ -18,6 +18,7 @@ import ViewTargetTweets from './pages/TwitterCrawler/ViewTargetTweets';
 import ViewTargetProfile from './pages/TwitterCrawler/ViewTargetProfile';
 import { TwitterRapidSerach } from './pages/RapidSearch/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import CoronaDashboard from './pages/CoronaDashboard';
 import { useTranslation } from 'react-i18next';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -37,6 +38,12 @@ export function App(props) {
 
         <Switch>
           <Route exact {...props} path="/" component={HomePage} />
+          <Route
+            exact
+            {...props}
+            path="/dashboard/corona"
+            component={CoronaDashboard}
+          />
           <Route
             exact
             {...props}
@@ -61,6 +68,7 @@ export function App(props) {
             path="/twitter-crawler/twitter-profile-target/view-profile"
             component={ViewTargetProfile}
           />
+
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

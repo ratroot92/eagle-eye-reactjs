@@ -31,9 +31,9 @@ export default function Header() {
             </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link disabled" href="#">
-              Logs
-            </a>
+            <Link className="nav-link" to="/dashboard/corona">
+              Corona Dashboard <span className="sr-only">(current)</span>
+            </Link>
           </li>
         </ul>
       </div>

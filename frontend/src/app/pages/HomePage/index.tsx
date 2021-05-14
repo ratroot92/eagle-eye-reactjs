@@ -23,6 +23,7 @@ import dashboardService from '../../../service/dashboardService';
 // const HomePage: React.FC = () => {
 export function HomePage() {
   const [load, setLoad] = React.useState(false);
+  const [loadTrends, setLoadTrends] = React.useState(true);
   const [twitterTrends, setTwitterTrends] = React.useState({
     worldTrends: [],
     pakistanTrends: [],
@@ -42,6 +43,7 @@ export function HomePage() {
     }
     fetchApi();
   }, []);
+
   return (
     <div className="row h-100 ">
       {load ? (
@@ -51,12 +53,16 @@ export function HomePage() {
           </div>
           <div className="col-md-4">
             <TrendsCards
+              setter={setTwitterTrends}
+              state={twitterTrends}
               title="World Top Trends"
               trends={twitterTrends.worldTrends || []}
             />
           </div>
           <div className="col-md-4">
             <TrendsCards
+              setter={setTwitterTrends}
+              state={twitterTrends}
               title="Pakistan Top Trends"
               trends={twitterTrends.pakistanTrends || []}
             />

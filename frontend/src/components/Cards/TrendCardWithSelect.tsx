@@ -3,9 +3,9 @@ import { useCss } from 'react-use';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSync } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
-import moment from 'moment';
 import { BoxLoading } from 'react-loadingg';
 import dashboardService from '../../service/dashboardService';
+import moment from 'moment';
 export default function TrendsCards({ title }) {
   const [state, setState] = React.useState<any[]>([]);
   const [load, setLoad] = React.useState(false);
@@ -30,7 +30,7 @@ export default function TrendsCards({ title }) {
     // },
   });
   const tableContainer = useCss({
-    height: '300px',
+    height: '350px',
     overflow: 'auto',
     border: '1px solid green',
     '&:hover': {
@@ -96,25 +96,28 @@ export default function TrendsCards({ title }) {
       </div>
       <div className={`card-body m-0 p-0 `}>
         <div className={`${tableContainer}`}>
-          <table className={`${tableStyle}} table table-fixed`}>
-            <thead>
-              <tr>
-                <th className="font-12px p-1 m-0 " scope="col">
-                  Count
-                </th>
-                <th className="font-12px p-1 m-0 " scope="col">
-                  Name
-                </th>
-              </tr>
-            </thead>
-            {load ? (
+          {load ? (
+            <table className={`${tableStyle}} table table-fixed`}>
+              <thead>
+                <tr>
+                  <th className="font-12px p-1 m-0 " scope="col">
+                    Count
+                  </th>
+                  <th className="font-12px p-1 m-0 " scope="col">
+                    Name
+                  </th>
+                </tr>
+              </thead>
+
               <tbody>
                 {state?.length > 0 &&
-                  state.map(trend => (
+                  state.map((trend, index) => (
                     <tr
                       key={
                         trend.name +
                         trend.count +
+                        +index +
+                        title +
                         Math.floor(Math.random() * 100)
                       }
                     >
@@ -122,16 +125,22 @@ export default function TrendsCards({ title }) {
                         {trend.count || 'n/a'}
                       </td>
                       <td className="font-12px text-success p-1 m-0 ">
-                        {trend.name || 'n/a'}
+                        <a
+                          className="text-decoration-none"
+                          href={trend.href}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {trend.name || 'n/a'}
+                        </a>
                       </td>
                     </tr>
                   ))}
               </tbody>
-            ) : (
-              // <BoxLoading></BoxLoading>
-              <tbody></tbody>
-            )}
-          </table>
+            </table>
+          ) : (
+            <BoxLoading />
+          )}
         </div>
       </div>
       <div className="card-footer">
