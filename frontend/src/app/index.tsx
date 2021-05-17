@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /**
  *
  * App
@@ -19,14 +21,22 @@ import ViewTargetProfile from './pages/TwitterCrawler/ViewTargetProfile';
 import { TwitterRapidSerach } from './pages/RapidSearch/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import CoronaDashboard from './pages/CoronaDashboard';
+import LoginFrom from './pages/LoginFrom';
+import AdminDashboard from './pages/Admin/Dashboard';
 import { useTranslation } from 'react-i18next';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
+import Sidebar from './pages/Admin/Sidebar';
+/**
+ * Admin Imports
+ */
+import AddUser from './pages/Admin/pages/AddUser';
+import AllUser from './pages/Admin/pages/AllUser';
 
 export function App(props) {
   const { i18n } = useTranslation();
   return (
-    <div className="container-fluid h-100 ">
+    <div className="container-fluid  ">
       <BrowserRouter>
         <Helmet
           titleTemplate="%s - Eagle Eye "
@@ -37,7 +47,9 @@ export function App(props) {
         </Helmet>
 
         <Switch>
-          <Route exact {...props} path="/" component={HomePage} />
+          <Route exact {...props} path="/" component={LoginFrom} />
+          <Route exact {...props} path="/admin" component={AdminDashboard} />
+          {/* <Route exact {...props} path="/" component={HomePage} /> */}
           <Route
             exact
             {...props}
@@ -69,6 +81,8 @@ export function App(props) {
             component={ViewTargetProfile}
           />
 
+          <Route exact path="/admin/all-users" component={AllUser} />
+          <Route exact path="/admin/add-user" component={AddUser} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />

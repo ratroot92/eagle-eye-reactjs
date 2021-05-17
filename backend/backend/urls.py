@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path,include
+from .views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/auth/user-is-authenticated/',User_Is_Authenticated),
+    path('api/auth/user/login/',User_Login),
     path('api/dashboard/', include("dashboard.urls")),
     path('api/twitter/', include("twitter.urls")),
     path('api/rapid-search/', include("rapid_search.urls")),
