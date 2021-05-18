@@ -32,11 +32,22 @@ import Sidebar from './pages/Admin/Sidebar';
  */
 import AddUser from './pages/Admin/pages/AddUser';
 import AllUser from './pages/Admin/pages/AllUser';
-
+import PrivateRoute from '../hoc/PrivateRoute';
+import UnprivateRoute from '../hoc/UnprivateRoute';
+import styled from 'styled-components';
 export function App(props) {
   const { i18n } = useTranslation();
+
+  const AppWrapper = styled.div`
+    height: 100vh;
+    overflow-y: auto;
+    width: 100vw;
+    min-height: 100%;
+    padding: 0px;
+  `;
   return (
-    <div className="container-fluid  ">
+    // <div className="container-fluid">
+    <AppWrapper>
       <BrowserRouter>
         <Helmet
           titleTemplate="%s - Eagle Eye "
@@ -46,9 +57,10 @@ export function App(props) {
           <meta name="description" content="A Eagle Eye  application" />
         </Helmet>
 
+        {/*  */}
         <Switch>
-          <Route exact {...props} path="/" component={LoginFrom} />
-          <Route exact {...props} path="/admin" component={AdminDashboard} />
+          <UnprivateRoute exact {...props} path="/" component={LoginFrom} />
+          <PrivateRoute {...props} path="/admin" component={AdminDashboard} />
           {/* <Route exact {...props} path="/" component={HomePage} /> */}
           <Route
             exact
@@ -81,13 +93,11 @@ export function App(props) {
             component={ViewTargetProfile}
           />
 
-          <Route exact path="/admin/all-users" component={AllUser} />
-          <Route exact path="/admin/add-user" component={AddUser} />
           <Route component={NotFoundPage} />
         </Switch>
         <GlobalStyle />
       </BrowserRouter>
       <NotificationContainer />
-    </div>
+    </AppWrapper>
   );
 }

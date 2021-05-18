@@ -269,3 +269,102 @@ class Countries_Top_Trends_Document(Document):
     def getPakistanTrends():
         topTrends=Countries_Top_Trends_Document.objects.filter(country_name="pakistan")
         return topTrends
+
+
+
+
+
+""" 
+    @dated  ==> Monday, 17 May 2021
+    @author ==> Ahmed Kabeer Shaukat
+    @email  ==> maliksblr92
+    @params ==> password,email
+    return  ==> True/Flase
+"""
+class User_Document(Document):
+    username= StringField(verbose_name="Username", max_length=255)
+    email= StringField(verbose_name="Email", max_length=255)
+    password= StringField(verbose_name="Password", max_length=255)
+    role= IntField(verbose_name="Role", default=0)
+    phone= StringField(verbose_name="Phone", max_length=255,default=0)
+    created_at=DateField(default=datetime.datetime.now, editable=False)
+    updated_at=DateField(default=datetime.datetime.now, editable=True)
+
+  
+    def __repr__(self):
+        return self.username
+
+
+    def __str__(self):
+            return self.username
+  
+  
+  
+  
+    def Insert_User(self,username,email,password,role,phone):
+        try:
+            self.username=username
+            self.email=email
+            self.password=password
+            self.phone=phone
+            self.role=int(role)
+            self.save()
+            print(f"{bcolors.WARNING}User  --Create New User  --Success ,{bcolors.ENDC}")
+            return True
+        except Exception as e:
+            print(f"{bcolors.WARNING}User  --Create New User  --Exception ,{bcolors.ENDC}")
+            print(e)
+            return False
+
+
+    @staticmethod
+    def User_Already_Exist(username):
+            entry=User_Document.objects.filter(username=username)
+            if(entry):
+                print(f"{bcolors.WARNING}User_Already_Exist  --UserExist Success ,{bcolors.ENDC}")
+                return True
+            else:
+                print(f"{bcolors.WARNING}User_Already_Exist  --UserExist  Failed ,{bcolors.ENDC}")
+                return False
+
+
+    @staticmethod
+    def User_Is_Authenticated(password,email):
+            try:
+                user=User_Document.objects.filter(email=email).exists()
+                print(user)
+                return False
+            except Exception as e:
+                print(f"{bcolors.WARNING}User  --Create New User  --Exception ,{bcolors.ENDC}")
+                print(e)
+                return False
+
+    @staticmethod
+    def User_Login(username,password):
+                try:
+                    user=User_Document.objects.filter(username=username).exists()
+                    if user:
+                        print(user)
+                        print(user.user)
+                        return False
+                except Exception as e:
+                    print(f"{bcolors.WARNING}User  --Create New User  --Exception ,{bcolors.ENDC}")
+                    print(e)
+                    return False
+
+
+
+
+
+
+
+    @staticmethod
+    def Validate_User(email,password):
+            try:
+                user=User_Document.objects.all()
+                print(user)
+                return False
+            except Exception as e:
+                print(f"{bcolors.WARNING}User  --Validate_User --Exception ,{bcolors.ENDC}")
+                print(e)
+                return False

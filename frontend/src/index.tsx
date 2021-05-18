@@ -84,6 +84,8 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { store } from 'store/configureStore';
 
+import AuthProvider from './context/authContext';
+
 import reportWebVitals from 'reportWebVitals';
 
 // Initialize languages
@@ -94,7 +96,9 @@ ReactDOM.render(
   <Provider store={store}>
     <HelmetProvider>
       <React.StrictMode>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </React.StrictMode>
     </HelmetProvider>
   </Provider>,

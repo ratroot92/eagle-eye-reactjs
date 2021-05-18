@@ -21,6 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/auth/user-is-authenticated/',User_Is_Authenticated),
     path('api/auth/user/login/',User_Login),
+    path('api/auth/add-user/',Add_User),
+    path('api/auth/user-exist/',User_Already_Exist),
     path('api/dashboard/', include("dashboard.urls")),
     path('api/twitter/', include("twitter.urls")),
     path('api/rapid-search/', include("rapid_search.urls")),
