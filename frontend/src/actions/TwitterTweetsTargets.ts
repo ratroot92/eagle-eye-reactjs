@@ -104,6 +104,9 @@ export const startSetTwitterTweetsTarget = (
     twitterService
       .allTweetsTargets()
       .then(resData => {
+        console.log('====================================');
+        console.log('startSetTwitterTweetsTarget >> :', resData);
+        console.log('====================================');
         dispatch(setTwitterTweetsTarget(resData.data));
       })
       .catch(err => {

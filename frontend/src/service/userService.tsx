@@ -92,6 +92,17 @@ const userService = {
             })
             .catch(err => err);
     },
+    getAllUsers: () => {
+        return axios
+            .get(`http://0.0.0.0/api/auth/all-users/`)
+            .then(resData => {
+                console.log('====================================');
+                console.log('getAllUsers', resData);
+                console.log('====================================');
+                if (resData.status !== 401) return resData.data;
+            })
+            .catch(err => err);
+    },
 };
 
 export default userService;

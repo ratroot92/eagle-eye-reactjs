@@ -1,9 +1,9 @@
-export interface TwitterProfileTarget {
-  id: string | number;
-  username: string | number;
-  email: string | number;
-  password: string | number;
-  role: string | number;
-  created_at: string | number;
-  updated_at: string | number;
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  role: number;
+  created_at: string;
+  updated_at: string;
 }

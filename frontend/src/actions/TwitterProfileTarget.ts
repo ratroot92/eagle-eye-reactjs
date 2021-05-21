@@ -109,7 +109,7 @@ export const startSetTwitterProfileTarget = (
       .allProfilesTargets()
       .then(resData => {
         console.log('====================================');
-        console.log(resData);
+        console.log('startSetTwitterProfileTarget >> :', resData);
         console.log('====================================');
         dispatch(setTwitterProfileTarget(resData.data));
       })

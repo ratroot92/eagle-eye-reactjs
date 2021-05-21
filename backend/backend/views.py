@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import User_Document_Serializer
+from twitter.serializers import User_Document_Serializer
 from twitter.twitter_models import User_Document
 
 
@@ -77,6 +77,24 @@ def User_Login(request):
         password=formData['password']
         User.Validate_User(email,password)
         context = {'success':False,'message':'','data':[]}
+        return JsonResponse(context, safe=False)
+    except Exception as e:
+        print(e)
+        context = {'success':False,'message':'','data':[]}
+        return JsonResponse(context)
+    
+
+
+
+
+
+def All_Users(request):
+    try:
+        print("*** -- All_Users -- ***")
+        qs=User_Document.objects.all()
+        entry = User_Document_Serializer(qs,many=True)
+        print(entry.data)
+        context = {'success':True,'message':'','data':entry.data}
         return JsonResponse(context, safe=False)
     except Exception as e:
         print(e)

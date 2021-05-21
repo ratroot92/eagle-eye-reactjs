@@ -23,6 +23,7 @@ urlpatterns = [
     path('api/auth/user/login/',User_Login),
     path('api/auth/add-user/',Add_User),
     path('api/auth/user-exist/',User_Already_Exist),
+    path('api/auth/all-users/',All_Users),
     path('api/dashboard/', include("dashboard.urls")),
     path('api/twitter/', include("twitter.urls")),
     path('api/rapid-search/', include("rapid_search.urls")),

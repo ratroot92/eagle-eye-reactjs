@@ -1,5 +1,6 @@
 import { TwitterTweetsTarget } from './TwitterTweetsTarget';
 import { TwitterProfileTarget } from './TwitterProfileTarget';
+import { User } from './User';
 
 /**
  * TwitterTweetsTarget TYPES START
@@ -65,6 +66,39 @@ export interface SET_TWITTER_PROFILE_TARGETS_ACTION {
  */
 
 /**
+ * USER TYPES START
+ */
+
+export const ADD_USER = 'ADD_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const SET_USERS = 'SET_USERS';
+export const EDIT_USER = 'EDIT_USER';
+
+export interface ADD_USER_ACTION {
+  type: typeof ADD_USER;
+  user: User;
+}
+
+export interface EDIT_USER_ACTION {
+  type: typeof EDIT_USER;
+  user: User;
+}
+
+export interface DELETE_USER_ACTION {
+  type: typeof DELETE_USER;
+  id: string;
+}
+
+export interface SET_USERS_ACTION {
+  type: typeof SET_USERS;
+  users: User[];
+}
+
+/**
+ * USER TYPES END
+ */
+
+/**
  * CREATE AGGREGATION OF ALL ACTIONS
  */
 
@@ -80,6 +114,12 @@ export type TwitterProfileTargetTypes =
   | EDIT_TWITTER_PROFILE_ACTION
   | SET_TWITTER_PROFILE_TARGETS_ACTION;
 
+export type UserTypes =
+  | ADD_USER_ACTION
+  | EDIT_USER_ACTION
+  | DELETE_USER_ACTION
+  | SET_USERS_ACTION;
+
 /**
  * TwitterTweetsTarget TYPES END
  */
@@ -87,4 +127,7 @@ export type TwitterProfileTargetTypes =
 /**
  * CREATE AGGREGATION OF ALL ACTIONS OF APP
  */
-export type AppActions = TwitterTweetsTargetTypes | TwitterProfileTargetTypes;
+export type AppActions =
+  | TwitterTweetsTargetTypes
+  | TwitterProfileTargetTypes
+  | UserTypes;
