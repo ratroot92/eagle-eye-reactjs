@@ -33,15 +33,16 @@ const AllTargets = props => {
     console.log('====================================');
     console.log(data);
     console.log('====================================');
+
     return (
         <table className="table">
             <thead>
                 <tr>
-                    <th scope="col">Target Platform</th>
                     <th scope="col">Username</th>
-                    <th scope="col">Target Scheduling</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Tweet Count</th>
+                    <th scope="col">Created at </th>
                     <th scope="col">Operations</th>
                 </tr>
             </thead>
@@ -55,11 +56,8 @@ const AllTargets = props => {
                             <td className="font-12px">{item.username}</td>
                             <td className="font-12px">{item.email}</td>
                             <td className="font-12px">{item.role}</td>
-                            <td
-                                className={`${item.status === 'pending' ? 'text-danger' : 'text-success'
-                                    } font-12px`}
-                            >
-                                {item.status}
+                            <td className={`font-12px`}>
+                                {item.status === 1 ? 'admin' : 'user'}
                             </td>
 
                             <td className="font-12px">
@@ -84,7 +82,7 @@ const AllTargets = props => {
                                         </span>
                                     </>
                                 ) : (
-                                    <>
+                                    <td>
                                         <span
                                             className="badge badge-success"
                                         // onClick={() => {
@@ -119,7 +117,7 @@ const AllTargets = props => {
                                                 }}
                                             />
                                         </span>
-                                    </>
+                                    </td>
                                 )}
                             </td>
                         </tr>
@@ -157,5 +155,24 @@ export default function AllUser() {
                 NotificationManager.error('something went wrong...');
             });
     }, []);
-    return <div>{load ? <AllTargets data={allusers} /> : <BoxLoading />}</div>;
+
+    const TableWrapper = ({ Content }) => {
+        return (
+            <div className="card">
+                <div className="card-header">All Users </div>
+                <div className="card-body">{<Content />}</div>
+                <div className="card-footer">All Users </div>
+            </div>
+        );
+    };
+
+    return (
+        <div>
+            {load ? (
+                <TableWrapper Content={<AllTargets data={allusers} />} />
+            ) : (
+                <BoxLoading />
+            )}
+        </div>
+    );
 }
