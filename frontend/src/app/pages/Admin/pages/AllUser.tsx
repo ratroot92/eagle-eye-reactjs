@@ -21,29 +21,66 @@ import { History, LocationState } from 'history';
 // import { Link } from 'react-router-dom';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { User } from 'types/User';
-import { startSetUser } from 'actions/User';
+import { startEditUser, startSetUser } from 'actions/User';
 import userService from 'service/userService';
+import * as FaIcons from 'react-icons/fa';
 
 /**
  * All Target Table Start
  */
 
 const AllTargets = props => {
+    const dispatch = useDispatch();
+
     const { data } = props;
     console.log('====================================');
     console.log(data);
     console.log('====================================');
 
+    const deactivateUser = userId => {
+        userService
+            .deactivateUser(userId)
+            .then(({ data, success }) => {
+                if (success) {
+                    NotificationManager.success('user deactivated successfully');
+                    dispatch(startEditUser(data));
+                } else {
+                    NotificationManager.warning('failed to deactivate user ');
+                }
+            })
+            .catch(err => {
+                console.log('====================================');
+                console.log(err);
+                console.log('====================================');
+            });
+    };
+    const activateUser = userId => {
+        userService
+            .activateUser(userId)
+            .then(({ data, success }) => {
+                if (success) {
+                    NotificationManager.success('user activated successfully');
+                    dispatch(startEditUser(data));
+                } else {
+                    NotificationManager.warning('failed to activate user ');
+                }
+            })
+            .catch(err => {
+                console.log('====================================');
+                console.log(err);
+                console.log('====================================');
+            });
+    };
     return (
         <table className="table">
             <thead>
                 <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Created at </th>
-                    <th scope="col">Operations</th>
+                    <th scope="col text-center">Username</th>
+                    <th scope="col text-center">Email</th>
+                    <th scope="col text-center">Role</th>
+                    <th scope="col text-center">Status</th>
+                    <th scope="col text-center">Created at </th>
+                    <th scope="col text-center">Operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,72 +90,55 @@ const AllTargets = props => {
                             <th className="font-12px" scope="row">
                                 {item.username}
                             </th>
-                            <td className="font-12px">{item.username}</td>
                             <td className="font-12px">{item.email}</td>
                             <td className="font-12px">{item.role}</td>
-                            <td className={`font-12px`}>
-                                {item.status === 1 ? 'admin' : 'user'}
+                            <td
+                                className={`${item.status ? 'text-success' : 'text-warning'
+                                    } font-12px`}
+                            >
+                                {item.status ? 'active' : 'inactive'}
                             </td>
+                            <td className={`font-12px`}>{item.created_at}</td>
 
-                            <td className="font-12px">
-                                {item.status === 'pending' ? (
+                            <td className="d-flex flec-row justify-content-around align-items-center">
+                                <>
                                     <>
-                                        <span
-                                            className="badge badge-danger"
-                                        // onClick={() => {
-                                        //     deleteTarget(item.id.toString());
-                                        // }}
-                                        >
-                                            <FontAwesomeIcon
-                                                icon={faTrashAlt}
-                                                className=""
-                                                size="1x"
-                                                style={{
-                                                    color: 'white',
-                                                    fontSize: '14px',
-                                                    margin: 3,
-                                                }}
+                                        <span className="badge badge-success">
+                                            <FaIcons.FaPen
+                                                className="p-1"
+                                                size={'20'}
+                                                color="white"
                                             />
                                         </span>
                                     </>
-                                ) : (
-                                    <td>
-                                        <span
-                                            className="badge badge-success"
-                                        // onClick={() => {
-                                        //     viewTargetProfile(item);
-                                        // }}
-                                        >
-                                            <FontAwesomeIcon
-                                                icon={faEye}
-                                                className=""
-                                                size="1x"
-                                                style={{
-                                                    color: 'white',
-                                                    fontSize: '14px',
-                                                    margin: 3,
-                                                }}
-                                            />
-                                        </span>
+                                    {item.status === 1 ? (
                                         <span
                                             className="badge badge-danger"
-                                        // onClick={() => {
-                                        //     deleteTarget(item.id.toString());
-                                        // }}
+                                            onClick={() => {
+                                                deactivateUser(item.id.toString());
+                                            }}
                                         >
-                                            <FontAwesomeIcon
-                                                icon={faTrashAlt}
-                                                className=""
-                                                size="1x"
-                                                style={{
-                                                    color: 'white',
-                                                    fontSize: '14px',
-                                                    margin: 3,
-                                                }}
+                                            <FaIcons.FaTrash
+                                                className="p-1"
+                                                size={'20'}
+                                                color="white"
                                             />
                                         </span>
-                                    </td>
-                                )}
+                                    ) : (
+                                        <span
+                                            className="badge badge-success"
+                                            onClick={() => {
+                                                activateUser(item.id.toString());
+                                            }}
+                                        >
+                                            <FaIcons.FaTrash
+                                                className="p-1"
+                                                size={'20'}
+                                                color="white"
+                                            />
+                                        </span>
+                                    )}
+                                </>
                             </td>
                         </tr>
                     );
@@ -128,18 +148,19 @@ const AllTargets = props => {
     );
 };
 
-export default function AllUser() {
+export default function AllUser(props) {
     const dispatch = useDispatch();
-    // const users = useSelector((state: AppState) => state.users);
-    const [allusers, setAllUsers] = React.useState([]);
+    const users = useSelector((state: AppState) => state.users);
+
     const [load, setLoad] = React.useState(false);
+
     React.useEffect(() => {
         userService
             .getAllUsers()
             .then(({ data, success }) => {
                 if (success) {
                     dispatch(startSetUser(data));
-                    setAllUsers(data);
+
                     setLoad(true);
                     NotificationManager.success('all users successfull');
                 } else {
@@ -156,20 +177,30 @@ export default function AllUser() {
             });
     }, []);
 
-    const TableWrapper = ({ Content }) => {
-        return (
-            <div className="card">
-                <div className="card-header">All Users </div>
-                <div className="card-body">{<Content />}</div>
-                <div className="card-footer">All Users </div>
-            </div>
-        );
-    };
-
     return (
         <div>
             {load ? (
-                <TableWrapper Content={<AllTargets data={allusers} />} />
+                <div className="row">
+                    <div className="col-md-12 p-5 ">
+                        <div className="card">
+                            <div className="card-header">
+                                <span className="float-left"></span>{' '}
+                                <span className="float-right">
+                                    <button
+                                        className="btn btn-sm btn-success "
+                                        onClick={() => {
+                                            props.history.push('/admin/add-user');
+                                        }}
+                                    >
+                                        <FaIcons.FaPlus />
+                                    </button>
+                                </span>{' '}
+                            </div>
+                            <div className="card-body">{<AllTargets data={users} />}</div>
+                            <div className="card-footer"> </div>
+                        </div>
+                    </div>
+                </div>
             ) : (
                 <BoxLoading />
             )}

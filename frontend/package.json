@@ -52,6 +52,8 @@
     "popper.js": "1.16.1",
     "prettier": "2.1.1",
     "react": "16.13.1",
+    "react-alert": "7.0.3",
+    "react-alert-template-basic": "1.0.2",
     "react-app-polyfill": "1.0.6",
     "react-confirm-alert": "2.7.0",
     "react-dom": "16.13.1",

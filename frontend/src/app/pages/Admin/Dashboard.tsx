@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import Sidebar from './Sidebar';
 import AddUser from './pages/AddUser';
@@ -22,23 +23,6 @@ export default function Dashboard(props) {
         },
     ];
     return (
-        // <div className="row  h-100">
-        //     <div className="col-md-3">
-        //         <Sidebar />
-        //     </div>
-
-        //     <div className="col-md-9 bg-dark">
-        //         {routes.map(route => (
-        //             <PrivateRoute
-        //                 key={route.path}
-        //                 path={route.path}
-        //                 exact={route.exact}
-        //                 component={route.main}
-        //                 roles={route.roles}
-        //             />
-        //         ))}
-        //     </div>
-        // </div>
         <div className="row  h-100">
             <div className="col-md-12">
                 <Sidebar />

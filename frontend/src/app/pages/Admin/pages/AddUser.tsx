@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from 'store/configureStore';
 import FormWrapper from '../../RapidSearch/FormWrapper';
 import userService from '../../../../service/userService';
+
+import * as FaIcons from 'react-icons/fa';
 /**
  * Form
  */
@@ -26,13 +28,10 @@ const validationSchema = Yup.object().shape({
           userService
             .userAlreadyExist(val)
             .then(({ success, data }) => {
-              console.log('====================================');
-              console.log(success, data);
-              console.log('====================================');
               if (success) {
-                NotificationManager.warning(
-                  `User with username ${data}  already exist ...`,
-                );
+                // NotificationManager.warning(
+                //   ` username ${data}  already exist ...`,
+                // );
                 return resolve(false);
               }
               return resolve(true);
@@ -43,9 +42,56 @@ const validationSchema = Yup.object().shape({
         }
       });
     }),
-  email: Yup.string().email().required('Email is required ...'),
+  email: Yup.string()
+    .email()
+    .required('Email is required ...')
+    .test('avaliable', 'Email already exist', val => {
+      return new Promise(resolve => {
+        if (val !== '') {
+          userService
+            .userEmailExist(val)
+            .then(({ success, data, message }) => {
+              console.log('====================================');
+              console.log('userEmailExist >> : ', success, data, message);
+              console.log('====================================');
+              if (success) {
+                // NotificationManager.warning(`email ${data}  already exist ...`);
+                return resolve(false);
+              }
+              return resolve(true);
+            })
+            .catch(err => console.log(err));
+        } else {
+          return resolve(false);
+        }
+      });
+    }),
   role: Yup.string().required('Role is required ...'),
-  phone: Yup.string().required('Phone is required ...').min(11).max(11),
+  phone: Yup.string()
+    .required('Phone is required ...')
+    .min(11)
+    .max(11)
+    .test('avaliable', 'Phone already exist', val => {
+      return new Promise(resolve => {
+        if (val !== '') {
+          userService
+            .userPhoneExist(val)
+            .then(({ success, data, message }) => {
+              console.log('====================================');
+              console.log('userPhoneExist >> : ', success, data, message);
+              console.log('====================================');
+              if (success) {
+                // NotificationManager.warning(`phone ${data}  already exist ...`);
+                return resolve(false);
+              }
+              return resolve(true);
+            })
+            .catch(err => console.log(err));
+        } else {
+          return resolve(false);
+        }
+      });
+    }),
   password: Yup.string().required(' Password is required ...').min(8).max(14),
   c_password: Yup.string().required('Confirm Password is required ...'),
 });
@@ -136,7 +182,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.username?.message}
                   </p>
                 </div>
@@ -183,7 +229,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.phone?.message}
                   </p>
                 </div>
@@ -229,7 +275,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.email?.message}
                   </p>
                 </div>
@@ -276,7 +322,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.role?.message}
                   </p>
                 </div>
@@ -322,7 +368,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.password?.message}
                   </p>
                 </div>
@@ -368,7 +414,7 @@ const AddUserForm = () => {
               <>
                 <div className="col-md-3"></div>
                 <div className="col-md-9 offset-3 pl-5 pr-5 ">
-                  <p className="font-12px p-0 m-0  text-white ">
+                  <p className="font-12px p-0 m-0  text-danger ">
                     {errors?.c_password?.message}
                   </p>
                 </div>
@@ -398,14 +444,28 @@ const AddUserForm = () => {
   );
 };
 
-export default function AddUser() {
+export default function AddUser(props) {
   return (
     <div className="row">
-      <div className="col-md-2"></div>
-      <div className="col-md-8">
-        <FormWrapper ChildForm={<AddUserForm />} title="Add User" />
+      <div className="col-md-12 p-5 ">
+        <div className="card">
+          <div className="card-header">
+            <span className="float-left">Add User </span>
+            <span className="float-right">
+              <button
+                className="btn btn-sm btn-success "
+                onClick={() => {
+                  props.history.push('/admin/all-users');
+                }}
+              >
+                <FaIcons.FaList />
+              </button>
+            </span>
+          </div>
+          <div className="card-body">{<AddUserForm />}</div>
+          <div className="card-footer"> </div>
+        </div>
       </div>
-      <div className="col-md-2"></div>
     </div>
   );
 }

@@ -286,6 +286,7 @@ class User_Document(Document):
     email= StringField(verbose_name="Email", max_length=255)
     password= StringField(verbose_name="Password", max_length=255)
     role= IntField(verbose_name="Role", default=0)
+    status= IntField(verbose_name="Status", default=1)
     phone= StringField(verbose_name="Phone", max_length=255,default=0)
     created_at  =DateField(default=datetime.datetime.now, editable=False,)
     updated_at  =DateField(default=datetime.datetime.now, editable=True,)
@@ -328,17 +329,7 @@ class User_Document(Document):
                 return False
 
 
-    @staticmethod
-    def User_Is_Authenticated(password,email):
-            try:
-                user=User_Document.objects.filter(email=email).exists()
-                print(user)
-                return False
-            except Exception as e:
-                print(f"{bcolors.WARNING}User  --Create New User  --Exception ,{bcolors.ENDC}")
-                print(e)
-                return False
-
+   
     @staticmethod
     def User_Login(username,password):
                 try:

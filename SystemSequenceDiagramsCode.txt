@@ -1,0 +1,121 @@
+https://www.websequencediagrams.com/
+*********
+Add Profile Target 
+*********
+title Add Twitter Profile Targets Sequence Diagram
+actor User
+User->+Eagle Eye : User Login
+Eagle Eye-->User : Enter Credentails();
+User->Eagle Eye : Enter Credentails(username,password);
+Eagle Eye->+Database:Validate User();
+Database->Database:Validating User
+Database-->-Eagle Eye :User is Validated
+Eagle Eye-->-User : 
+Eagle Eye-->User : Returns Twitter Dashboard Page
+User->Eagle Eye :Clicks Twitter Crawler Button
+Eagle Eye -->User:Return Twitter Crawler Page
+User->Eagle Eye :Clicks Add Twitter Profile Target Tab
+Eagle Eye-->User:Return Twitter Profile Targets Tab
+User->Eagle Eye :Submit Profile Target(username,schedulingType)
+Eagle Eye->Database:Insert Twitter Profile Target
+Database-->Eagle Eye :Target Inserted To Database 
+Eagle Eye->+Celery Worker:Send Scrapping Signal To Node
+Celery Worker-->Eagle Eye :Scrapping Complete Successfully
+Celery Worker-->Database:Save Profile Data to Database
+Celery Worker-->Database:Change Target Status In Database
+Celery Worker-->Eagle Eye :Task Completed Successfully
+Celery Worker->-Celery Worker:Scrapping Process
+Eagle Eye-->User:Target Inserted Successfully
+Eagle Eye-->User:Scrapping Complete Notification (Real-Time)
+
+
+
+
+*********
+Add Tweets Target 
+*********
+title Add Twitter Tweets Targets Sequence Diagram
+actor User
+User->+Eagle Eye : User Login
+Eagle Eye-->User : Enter Credentails();
+User->Eagle Eye : Enter Credentails(username,password);
+Eagle Eye->+Database:Validate User();
+Database->Database:Validating User
+Database-->-Eagle Eye :User is Validated
+Eagle Eye-->-User : 
+Eagle Eye-->User : Returns Twitter Dashboard Page
+User->Eagle Eye :Clicks Twitter Crawler Button
+Eagle Eye -->User:Return Twitter Crawler Page
+User->Eagle Eye :Clicks Add Twitter Tweets Target Tab
+Eagle Eye-->User:Return Twitter Tweets Targets Tab
+User->Eagle Eye :Submit Tweets Target(username,schedulingType)
+Eagle Eye->Database:Insert Twitter Tweets Target
+Database-->Eagle Eye :Target Inserted To Database 
+Eagle Eye->+Celery Worker:Send Scrapping Signal To Node
+Celery Worker-->Eagle Eye :Scrapping Complete Successfully
+Celery Worker-->Database:Save Tweets Data to Database
+Celery Worker-->Database:Change Target Status In Database
+Celery Worker-->Eagle Eye :Task Completed Successfully
+Celery Worker->-Celery Worker:Scrapping Process
+Eagle Eye-->User:Target Inserted Successfully
+Eagle Eye-->User:Scrapping Complete Notification (Real-Time)
+
+
+
+*********
+User Login Sequence Diagram
+*********
+
+title User Login Sequence Diagram
+actor User
+User->+Eagle Eye : User Login
+Eagle Eye-->User : Enter Credentails();
+User->Eagle Eye : Enter Credentails(username,password);
+Eagle Eye->+Database:Validate User();
+Database->Database:Authenticating and Authorization Check
+Database-->-Eagle Eye :User is Validated (Role==0)
+Eagle Eye-->-User : Return Twitter Dashboard Page
+
+
+
+*********
+Admin Login Sequence Diagram
+*********
+
+
+title Admin Login Sequence Diagram
+actor Admin
+User->+Eagle Eye : Admin Login
+Eagle Eye-->User : Enter Credentails();
+User->Eagle Eye : Enter Credentails(username,password);
+Eagle Eye->+Database:Validate Admin();
+Database->Database:Authenticating and Authorization Check
+Database-->-Eagle Eye :User is Validated (Role==1)
+Eagle Eye-->-User : Return Admin Portal
+
+
+
+*********
+Create New User / Admin 
+*********
+
+
+title Create New User / Admin 
+actor Admin
+User->+Eagle Eye : Admin Login
+Eagle Eye-->User : Enter Credentails();
+User->Eagle Eye : Enter Credentails(username,password);
+Eagle Eye->+Database:Validate Admin();
+Database->Database:Authenticating and Authorization Check
+Database-->-Eagle Eye :User is Validated (Role==1)
+Eagle Eye-->-User : Return Admin Portal
+User->Eagle Eye:Click Add User/Admin
+Eagle Eye --> User:Return Add User Page
+User->+Eagle Eye :SubmitForm(username,email,password,role,status)
+Eagle Eye->+Database:Insert New User()
+Database->Database:Validating Fields()
+Database->-Eagle Eye:User / Admin Inserted Successfully
+Eagle Eye ->-User:New User / Admin Created Successfully
+
+
+

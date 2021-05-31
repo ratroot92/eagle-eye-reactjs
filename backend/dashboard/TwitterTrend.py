@@ -18,7 +18,7 @@ class Twitter_Trends():
         try:
             page = session.get(url);
         except Exception as e:
-            print(e)
+            print("Exception  >> : World_Top_Trends",e)
             print("World_Top_Trends -- Failed ")
             return topTrends
         status_code=page.status_code;

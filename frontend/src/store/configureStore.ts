@@ -38,11 +38,17 @@ import thunk, { ThunkMiddleware } from 'redux-thunk';
 import { TwitterTweetsTargetReducer } from '../reducers/TwitterTweetsTarget';
 import { TwitterProfileTargetReducer } from '../reducers/TwitterProfileTarget';
 import { UserReducer } from '../reducers/User';
+import { AuthReducer } from '../reducers/auth';
+import { ErrorReducer } from '../reducers/error';
+import { MessageReducer } from '../reducers/messages';
 import { AppActions } from '../types/actions';
 export const rootReducer = combineReducers({
   twitter_tweets_targets: TwitterTweetsTargetReducer,
   twitter_profile_targets: TwitterProfileTargetReducer,
   users: UserReducer,
+  auth: AuthReducer,
+  error: ErrorReducer,
+  messages: MessageReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

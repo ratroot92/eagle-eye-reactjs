@@ -1,7 +1,7 @@
 bs4
 django
 djnagorestframework
-django-cors-headers
+django-cors-headsers
 requests
 lxml
 mongoengine
@@ -12,3 +12,4 @@ geopy
 celery
 channels
 channels_redis
+django-rest-knox

@@ -6,16 +6,19 @@ import { NotificationContainer } from 'react-notifications';
 // import loader from '../assets/svgs/loader.svg';
 import 'react-notifications/lib/notifications.css';
 import { BoxLoading } from 'react-loadingg';
+import userService from 'service/userService';
 interface IUser {
-    isAuthenticated: boolean;
     username: string;
+    password: string;
     email: string;
     role: string | number;
     [key: string]: any;
 }
 interface AuthContextProps {
     isAuthenticated: boolean;
+    setIsAuthenticated: any;
     user: IUser;
+    setUser: any;
 }
 
 export const AuthContext = React.createContext<AuthContextProps | null>(
@@ -26,15 +29,32 @@ export default ({ children }) => {
     const [user, setUser] = React.useState<IUser>({
         username: '',
         email: '',
-        isAuthenticated: false,
+        password: '',
         role: '',
     });
     const [isAuthenticated, setIsAuthenticated] = React.useState(false);
     const [load, setLoad] = React.useState(false);
 
     React.useEffect(() => {
-        setIsAuthenticated(true);
-        setLoad(true);
+        let getUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+        userService
+            .userIsAuthenticated(getUser)
+            .then(({ success, data }) => {
+                if (success) {
+                    setUser(data);
+                    setIsAuthenticated(true);
+                    setLoad(true);
+                } else {
+                    setLoad(true);
+                }
+            })
+            .catch(err => {
+                console.log('====================================');
+                console.log(err);
+                console.log('====================================');
+                setLoad(true);
+            });
     }, []);
     return (
         <div>
@@ -57,7 +77,8 @@ export default ({ children }) => {
                     value={{
                         user,
                         isAuthenticated,
-                        // setIsAuthenticated,
+                        setIsAuthenticated,
+                        setUser,
                     }}
                 >
                     {children}

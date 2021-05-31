@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dispatch } from 'redux';
 import userService from 'service/userService';
+import axios from 'axios';
 import { AppState } from 'store/configureStore';
 import {
   AppActions,
@@ -11,6 +12,27 @@ import {
 } from 'types/actions';
 
 import { User } from '../types/User';
+
+//  ADD USER
+//  ALTER NATIVE WAY
+// export const addUser = user => disptach => {
+//   axios.post('/api/leads', user).then(res => {
+//     dispatch({
+//       type: ADD_USER,
+//       payload: res.data,
+//     })
+//     }).catch(err => {
+//       const errors = {
+//         mesg: err.reponse.data,
+//         status: err.response.status,
+//       };
+//       dispatch({
+//         type: GET_ERRORS,
+//         payload: errors,
+//       })
+//     });
+//   });
+// };
 
 export const addUser = (user: User): AppActions => ({
   type: ADD_USER,
@@ -75,6 +97,9 @@ export const startDeleteUser = (id: string) => {
 };
 
 export const startEditUser = (user: User) => {
+  console.log('====================================');
+  console.log('startEditUser', user);
+  console.log('====================================');
   return (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     dispatch(editUser(user));
   };

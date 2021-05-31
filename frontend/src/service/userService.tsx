@@ -92,6 +92,22 @@ const userService = {
             })
             .catch(err => err);
     },
+    userEmailExist: email => {
+        return axios
+            .get(`http://0.0.0.0/api/auth/user-email-exist/?email=${email}`)
+            .then(resData => {
+                if (resData.status !== 401) return resData.data;
+            })
+            .catch(err => err);
+    },
+    userPhoneExist: phone => {
+        return axios
+            .get(`http://0.0.0.0/api/auth/user-phone-exist/?phone=${phone}`)
+            .then(resData => {
+                if (resData.status !== 401) return resData.data;
+            })
+            .catch(err => err);
+    },
     getAllUsers: () => {
         return axios
             .get(`http://0.0.0.0/api/auth/all-users/`)
@@ -99,6 +115,22 @@ const userService = {
                 console.log('====================================');
                 console.log('getAllUsers', resData);
                 console.log('====================================');
+                if (resData.status !== 401) return resData.data;
+            })
+            .catch(err => err);
+    },
+    deactivateUser: id => {
+        return axios
+            .get(`http://0.0.0.0/api/auth/deactivate-user/?id=${id}`)
+            .then(resData => {
+                if (resData.status !== 401) return resData.data;
+            })
+            .catch(err => err);
+    },
+    activateUser: id => {
+        return axios
+            .get(`http://0.0.0.0/api/auth/activate-user/?id=${id}`)
+            .then(resData => {
                 if (resData.status !== 401) return resData.data;
             })
             .catch(err => err);

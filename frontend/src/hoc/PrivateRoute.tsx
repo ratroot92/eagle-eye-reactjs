@@ -1,24 +1,25 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { AuthContext } from '../context/authContext';
-const PrivateRoute = ({ component: Component, roles, ...rest }) => {
-    const { isAuthenticated } = useContext(AuthContext);
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-    return (
-        <Route
-            {...rest}
-            render={props => {
-                if (isAuthenticated) {
-                    return <Component {...props} />;
-                } else {
-                    return (
-                        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-                    );
-                }
-            }}
-        />
-    );
-};
+const PrivateRoute = ({ component: Component, auth, ...rest }) => (
+    <Route
+        {...rest}
+        render={props => {
+            if (auth.isLoading) {
+                return <h2>Loading...</h2>;
+            } else if (!auth.isAuthenticated) {
+                return <Redirect to="/login" />;
+            } else {
+                return <Component {...props} />;
+            }
+        }}
+    />
+);
 
-export default PrivateRoute;
+const mapStateToProps = state => ({
+    auth: state.auth,
+});
+
+export default connect(mapStateToProps)(PrivateRoute);
