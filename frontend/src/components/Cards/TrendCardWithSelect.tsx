@@ -22,20 +22,10 @@ export default function TrendsCards({ title }) {
     setLoad(true);
   }, []);
 
-  const tableStyle = useCss({
-    // height: '600px!important',
-    // border: '1px solid red',
-    // '&:hover': {
-    //   color: 'blue',
-    // },
-  });
+  const tableStyle = useCss({});
   const tableContainer = useCss({
     height: '350px',
     overflow: 'auto',
-    border: '1px solid green',
-    '&:hover': {
-      color: 'blue',
-    },
   });
 
   const trendsByArea = e => {
@@ -65,12 +55,12 @@ export default function TrendsCards({ title }) {
             // spin
             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: 'white' }}
           />
-          <span> {title}</span>
+          <h4> {title}</h4>
         </div>
         <div className="row mt-2">
           <div className="col-md-3">
             <label
-              className="form-control form-control-sm w-100 font-12px"
+              className="form-control form-control-sm w-100 font-14px"
               htmlFor=""
             >
               City

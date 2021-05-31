@@ -2,8 +2,8 @@ from django.http import JsonResponse
 from django.http import HttpResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
-from twitter.serializers import User_Document_Serializer
-from twitter.twitter_models import User_Document
+from .serializers import UserSerializer
+from django.contrib.auth.models import User
 
 
 """
@@ -18,9 +18,9 @@ def User_Is_Authenticated(request):
         username=formData['username']
         password=formData['password']
         print(username,password,formData)
-        qs=User_Document.objects.filter(username=username,password=password).first()
+        qs=User.objects.filter(username=username,password=password).first()
         if(qs):
-            entry = User_Document_Serializer(qs)
+            entry = UserSerializer(qs)
             user={
             "username":entry.data["username"],
             "password":entry.data["password"],
@@ -59,8 +59,8 @@ def Add_User(request):
         userObj=User_Document()
         isInserted=userObj.Insert_User(username,email,password,role,phone)
         if(isInserted):
-            qs=User_Document.objects.get(username=username)
-            entry = User_Document_Serializer(qs)
+            qs=User.objects.get(username=username)
+            entry = UserSerializer(qs)
             context = {'success':True,'message':'user inserted successfully','data':entry.data}
             return JsonResponse(context, safe=False)
         else:
@@ -76,11 +76,14 @@ def Add_User(request):
 
 def User_Already_Exist(request):
     try:
-        print("User_Already_Exist",request.GET["username"])
         username=request.GET["username"]
-        entry=User_Document.User_Already_Exist(username=username)
-        context = {'success':entry,'message':'','data':username}
-        return JsonResponse(context)
+        entry=User.objects.filter(username=username).exists()
+        if entry:
+            context = {'success':True,'message':'','data':username}
+            return JsonResponse(context)
+        else:
+            context = {'success':False,'message':'','data':username}
+            return JsonResponse(context)
     except Exception as e:
         print("Error => ",e)
         context = {'success':False,'message':'','data':False}
@@ -91,14 +94,13 @@ def User_Already_Exist(request):
 
 def User_Email_Exist(request):
     try:
-        print("User_Email_Exist",request.GET["email"])
         email=request.GET["email"]
-        entry=User_Document.objects.filter(email=email).get()
+        entry=User.objects.filter(email=email).exists()
         if entry:
-            context = {'success':True,'message':'email exist','data':email}
+            context = {'success':True,'message':'','data':email}
             return JsonResponse(context)
         else:
-            context = {'success':True,'message':'email does not eixst ','data':email}
+            context = {'success':False,'message':'','data':email}
             return JsonResponse(context)
 
     except Exception as e:
@@ -112,7 +114,7 @@ def User_Phone_Exist(request):
     try:
         print("User_Phone_Exist",request.GET["phone"])
         phone=request.GET["phone"]
-        entry=User_Document.objects.filter(phone=phone).get()
+        entry=User.objects.filter(phone=phone).get()
         if entry:
             context = {'success':True,'message':'phone exist','data':phone}
             return JsonResponse(context)
@@ -151,10 +153,8 @@ def User_Login(request):
 
 def All_Users(request):
     try:
-        print("*** -- All_Users -- ***")
-        qs=User_Document.objects.all()
-        entry = User_Document_Serializer(qs,many=True)
-        print(entry.data)
+        qs=User.objects.all()
+        entry = UserSerializer(qs,many=True)
         context = {'success':True,'message':'','data':entry.data}
         return JsonResponse(context, safe=False)
     except Exception as e:
@@ -171,11 +171,11 @@ def Deactivate_User(request):
     try:
         print("*** -- Deactivate_User  -- ***")
         id=request.GET["id"]
-        qs=User_Document.objects.filter(id=id).get()
-        qs.update(status=0)
+        qs=User.objects.filter(id=id).first()
+        qs.is_active=False
         qs.save()
-        qs=User_Document.objects.filter(id=id).get()
-        entry = User_Document_Serializer(qs)
+        entry = UserSerializer(qs)
+        print("entry",entry)
         context = {'success':True,'message':'','data':entry.data}
         return JsonResponse(context, safe=False)
             
@@ -194,11 +194,11 @@ def Activate_User(request):
     try:
         print("*** -- Activate_User  -- ***")
         id=request.GET["id"]
-        qs=User_Document.objects.filter(id=id).get()
-        qs.update(status=1)
+        qs=User.objects.filter(id=id).first()
+        qs.is_active=True
         qs.save()
-        qs=User_Document.objects.filter(id=id).get()
-        entry = User_Document_Serializer(qs)
+        entry = UserSerializer(qs)
+        print("entry",entry)
         context = {'success':True,'message':'','data':entry.data}
         return JsonResponse(context, safe=False)
             

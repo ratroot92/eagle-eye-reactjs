@@ -13,13 +13,12 @@
 //     </>
 //   );
 // }
-
-import Header from 'components/layouts/Header';
 import TrendsCards from 'components/Cards/TrendsCards';
 import TrendCardWithSelect from 'components/Cards/TrendCardWithSelect';
 import React from 'react';
 import { BoxLoading } from 'react-loadingg';
 import dashboardService from '../../../service/dashboardService';
+import { url } from 'inspector';
 // const HomePage: React.FC = () => {
 export function HomePage() {
   const [load, setLoad] = React.useState(false);
@@ -45,13 +44,19 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="row h-100 ">
+    <div
+      className="row"
+      style={{
+        height: '100vh',
+        backgroundImage: `url(${'https://images8.alphacoders.com/473/thumb-1920-473471.jpg'})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
       {load ? (
         <>
-          <div className="col-md-12 m-0 p-0">
-            <Header />
-          </div>
-          <div className="col-md-4">
+          <div className="col-md-4 mt-5">
             <TrendsCards
               setter={setTwitterTrends}
               state={twitterTrends}
@@ -59,7 +64,7 @@ export function HomePage() {
               trends={twitterTrends.worldTrends || []}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 mt-5">
             <TrendsCards
               setter={setTwitterTrends}
               state={twitterTrends}
@@ -67,7 +72,7 @@ export function HomePage() {
               trends={twitterTrends.pakistanTrends || []}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-md-4 mt-5">
             <TrendCardWithSelect title="India Top Trends" />
           </div>
         </>

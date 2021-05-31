@@ -24,7 +24,6 @@ import { User } from 'types/User';
 import { startEditUser, startSetUser } from 'actions/User';
 import userService from 'service/userService';
 import * as FaIcons from 'react-icons/fa';
-
 /**
  * All Target Table Start
  */
@@ -75,10 +74,12 @@ const AllTargets = props => {
         <table className="table">
             <thead>
                 <tr>
+                    <th scope="col text-center">Id</th>
                     <th scope="col text-center">Username</th>
                     <th scope="col text-center">Email</th>
-                    <th scope="col text-center">Role</th>
-                    <th scope="col text-center">Status</th>
+                    <th scope="col text-center">Is Active</th>
+                    <th scope="col text-center">Is Staff </th>
+                    <th scope="col text-center">Is Superuser </th>
                     <th scope="col text-center">Created at </th>
                     <th scope="col text-center">Operations</th>
                 </tr>
@@ -88,17 +89,34 @@ const AllTargets = props => {
                     return (
                         <tr key={item.id}>
                             <th className="font-12px" scope="row">
+                                {item.id}
+                            </th>
+                            <th className="font-12px" scope="row">
                                 {item.username}
                             </th>
-                            <td className="font-12px">{item.email}</td>
-                            <td className="font-12px">{item.role}</td>
+                            <th className="font-12px" scope="row">
+                                {item.email}
+                            </th>
+
                             <td
-                                className={`${item.status ? 'text-success' : 'text-warning'
+                                className={`${item.is_active ? 'text-success' : 'text-warning'
                                     } font-12px`}
                             >
-                                {item.status ? 'active' : 'inactive'}
+                                {item.is_active ? 'active' : 'inactive'}
                             </td>
-                            <td className={`font-12px`}>{item.created_at}</td>
+                            <td
+                                className={`${item.is_staff ? 'text-success' : 'text-warning'
+                                    } font-12px`}
+                            >
+                                {item.is_staff ? 'true' : 'false'}
+                            </td>
+                            <td
+                                className={`${item.is_superuser ? 'text-success' : 'text-warning'
+                                    } font-12px`}
+                            >
+                                {item.is_superuser ? 'true' : 'false'}
+                            </td>
+                            <td className={`font-12px`}>{item.date_joined}</td>
 
                             <td className="d-flex flec-row justify-content-around align-items-center">
                                 <>
@@ -111,7 +129,7 @@ const AllTargets = props => {
                                             />
                                         </span>
                                     </>
-                                    {item.status === 1 ? (
+                                    {item.is_active ? (
                                         <span
                                             className="badge badge-danger"
                                             onClick={() => {

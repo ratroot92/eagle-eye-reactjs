@@ -109,8 +109,14 @@
 // }
 import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
+// import {
+//   HashRouter as Router,
+//   Route,
+//   Switch,
+//   Redirect,
+// } from 'react-router-dom';
 import {
-  HashRouter as Router,
+  BrowserRouter as Router,
   Route,
   Switch,
   Redirect,
@@ -118,7 +124,7 @@ import {
 
 import { Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
-
+import { NotificationContainer } from 'react-notifications';
 import Header from '../components/layouts/Header';
 import { HomePage as Dashboard } from './pages/HomePage/Loadable';
 import Alerts from '../components/layouts/Alert';
@@ -127,7 +133,7 @@ import PrivateRoute from '../hoc/PrivateRoute';
 import { Provider } from 'react-redux';
 import { loadUser } from '../actions/auth';
 import { store } from '../store/configureStore';
-
+import 'react-notifications/lib/notifications.css';
 import { TwitterCrawler } from './pages/TwitterCrawler/Loadable';
 import ViewTargetTweets from './pages/TwitterCrawler/ViewTargetTweets';
 import ViewTargetProfile from './pages/TwitterCrawler/ViewTargetProfile';
@@ -199,6 +205,7 @@ export function App(props) {
           </React.Fragment>
         </Router>
       </AlertProvider>
+      <NotificationContainer />
     </Provider>
   );
 }

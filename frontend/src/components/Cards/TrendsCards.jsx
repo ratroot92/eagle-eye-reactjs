@@ -8,6 +8,30 @@ import { BoxLoading } from 'react-loadingg';
 import dashboardService from '../../service/dashboardService';
 import moment from 'moment';
 export default function TrendsCards({ trends, title, setter, state }) {
+  const [data, setData] = React.useState(trends);
+  // const sortTrends = trendList => {
+  //   const data = [];
+  //   trendList.forEach(i => {
+  //     if (i.count !== 'n/a') {
+  //       i.count = parseInt(i.count.replace('k'));
+  //       data.push(i);
+  //     }
+  //   });
+  //   data.sort(function (a, b) {
+  //     var keyA = a.count,
+  //       keyB = b.count;
+  //     // Compare the 2 dates
+  //     if (keyA > keyB) return -1;
+  //     if (keyA < keyB) return 1;
+  //     return 0;
+  //   });
+  //   return data;
+  // };
+
+  // React.useEffect(() => {
+  //   setData(sortTrends(trends));
+  // }, []);
+
   const tableStyle = useCss({
     // height: '600px!important',
     // border: '1px solid red',
@@ -15,20 +39,21 @@ export default function TrendsCards({ trends, title, setter, state }) {
     //   color: 'blue',
     // },
   });
+
   const [load, setLoad] = React.useState(true);
   const tableContainer = useCss({
     height: '350px',
     overflow: 'auto',
-    border: '1px solid green',
-    '&:hover': {
-      color: 'blue',
-    },
   });
 
   const refreshWorldTopTrends = async trendType => {
     if (trendType === 'World Top Trends') {
       setLoad(false);
       const topWorldTrends = await dashboardService.topWorldTrends();
+      // setter({
+      //   ...state,
+      //   worldTrends: sortTrends(topWorldTrends.data),
+      // });
       setter({
         ...state,
         worldTrends: topWorldTrends.data,
@@ -37,6 +62,10 @@ export default function TrendsCards({ trends, title, setter, state }) {
     } else if (trendType === 'Pakistan Top Trends') {
       setLoad(false);
       const topPakistanTrends = await dashboardService.topPakistanTrends();
+      // setter({
+      //   ...state,
+      //   pakistanTrends: sortTrends(topPakistanTrends.data),
+      // });
       setter({
         ...state,
         pakistanTrends: topPakistanTrends.data,
@@ -57,7 +86,7 @@ export default function TrendsCards({ trends, title, setter, state }) {
             // spin
             style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: 'white' }}
           />
-          <span> {title}</span>
+          <h4> {title}</h4>
         </div>
         <div className="row mt-2">
           <button
@@ -87,9 +116,9 @@ export default function TrendsCards({ trends, title, setter, state }) {
                 </tr>
               </thead>
               <tbody>
-                {trends &&
-                  trends.length > 0 &&
-                  trends.map((trend, index) => (
+                {data &&
+                  data.length > 0 &&
+                  data.map((trend, index) => (
                     <tr
                       key={
                         trend.name +
